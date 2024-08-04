@@ -1,0 +1,749 @@
+2024-08-05 02:37:39,675 INFO    StreamThr :13168 [internal.py:wandb_internal():85] W&B internal server running at pid: 13168, started at: 2024-08-05 02:37:39.673324
+2024-08-05 02:37:39,678 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status
+2024-08-05 02:37:39,708 INFO    WriterThread:13168 [datastore.py:open_for_write():87] open: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\run-tf21u2de.wandb
+2024-08-05 02:37:39,709 DEBUG   SenderThread:13168 [sender.py:send():379] send: header
+2024-08-05 02:37:39,762 DEBUG   SenderThread:13168 [sender.py:send():379] send: run
+2024-08-05 02:37:40,305 INFO    SenderThread:13168 [dir_watcher.py:__init__():211] watching files in: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files
+2024-08-05 02:37:40,305 INFO    SenderThread:13168 [sender.py:_start_run_threads():1188] run started: tf21u2de with start time 1722793059.677221
+2024-08-05 02:37:40,328 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: check_version
+2024-08-05 02:37:40,328 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: check_version
+2024-08-05 02:37:40,406 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: run_start
+2024-08-05 02:37:40,475 DEBUG   HandlerThread:13168 [system_info.py:__init__():26] System info init
+2024-08-05 02:37:40,475 DEBUG   HandlerThread:13168 [system_info.py:__init__():41] System info init done
+2024-08-05 02:37:40,475 INFO    HandlerThread:13168 [system_monitor.py:start():194] Starting system monitor
+2024-08-05 02:37:40,476 INFO    SystemMonitor:13168 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-08-05 02:37:40,476 INFO    HandlerThread:13168 [system_monitor.py:probe():214] Collecting system info
+2024-08-05 02:37:40,480 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started cpu monitoring
+2024-08-05 02:37:40,480 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started disk monitoring
+2024-08-05 02:37:40,481 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started gpu monitoring
+2024-08-05 02:37:40,486 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started memory monitoring
+2024-08-05 02:37:40,503 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started network monitoring
+2024-08-05 02:37:40,505 DEBUG   HandlerThread:13168 [system_info.py:probe():152] Probing system
+2024-08-05 02:37:40,508 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:40,508 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:40,509 DEBUG   HandlerThread:13168 [system_info.py:_probe_git():137] Probing git
+2024-08-05 02:37:40,616 DEBUG   HandlerThread:13168 [system_info.py:_probe_git():145] Probing git done
+2024-08-05 02:37:40,616 DEBUG   HandlerThread:13168 [system_info.py:probe():200] Probing system done
+2024-08-05 02:37:40,616 DEBUG   HandlerThread:13168 [system_monitor.py:probe():223] {'os': 'Windows-10-10.0.19045-SP0', 'python': '3.9.19', 'heartbeatAt': '2024-08-04T17:37:40.505281', 'startedAt': '2024-08-04T17:37:39.653437', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': 'c:\\Users\\LimJaesung\\Documents\\Git\\Synthesizers\\TabDDPM\\main.py', 'codePathLocal': 'main.py', 'codePath': 'TabDDPM\\main.py', 'git': {'remote': 'https://github.com/ImJaeSung/Synthesizers.git', 'commit': 'f770055766b756b7cd0ff83167eb0b599269df29'}, 'email': None, 'root': 'C:/Users/LimJaesung/Documents/Git/Synthesizers', 'host': 'DESKTOP-5J5VKKC', 'username': 'LimJaesung', 'executable': 'c:\\Users\\LimJaesung\\anaconda3\\envs\\imputation\\python.exe', 'cpu_count': 6, 'cpu_count_logical': 6, 'cpu_freq': {'current': 3000.0, 'min': 0.0, 'max': 3000.0}, 'cpu_freq_per_core': [{'current': 3000.0, 'min': 0.0, 'max': 3000.0}], 'disk': {'/': {'total': 237.79767227172852, 'used': 175.93466567993164}}, 'gpu': 'NVIDIA GeForce GTX 1050', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce GTX 1050', 'memory_total': 2147483648}], 'memory': {'total': 15.915508270263672}}
+2024-08-05 02:37:40,616 INFO    HandlerThread:13168 [system_monitor.py:probe():224] Finished collecting system info
+2024-08-05 02:37:40,616 INFO    HandlerThread:13168 [system_monitor.py:probe():227] Publishing system info
+2024-08-05 02:37:40,617 DEBUG   HandlerThread:13168 [system_info.py:_save_conda():209] Saving list of conda packages installed into the current environment
+2024-08-05 02:37:40,624 ERROR   HandlerThread:13168 [system_info.py:_save_conda():223] Error saving conda packages: [WinError 2] 지정된 파일을 찾을 수 없습니다
+Traceback (most recent call last):
+  File "c:\Users\LimJaesung\anaconda3\envs\imputation\lib\site-packages\wandb\sdk\internal\system\system_info.py", line 216, in _save_conda
+    subprocess.call(
+  File "c:\Users\LimJaesung\anaconda3\envs\imputation\lib\subprocess.py", line 349, in call
+    with Popen(*popenargs, **kwargs) as p:
+  File "c:\Users\LimJaesung\anaconda3\envs\imputation\lib\subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "c:\Users\LimJaesung\anaconda3\envs\imputation\lib\subprocess.py", line 1436, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+FileNotFoundError: [WinError 2] 지정된 파일을 찾을 수 없습니다
+2024-08-05 02:37:40,626 DEBUG   HandlerThread:13168 [system_info.py:_save_conda():224] Saving conda packages done
+2024-08-05 02:37:40,628 INFO    HandlerThread:13168 [system_monitor.py:probe():229] Finished publishing system info
+2024-08-05 02:37:40,655 DEBUG   SenderThread:13168 [sender.py:send():379] send: files
+2024-08-05 02:37:40,655 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-metadata.json with policy now
+2024-08-05 02:37:40,956 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: python_packages
+2024-08-05 02:37:40,957 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: python_packages
+2024-08-05 02:37:40,957 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:37:40,958 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:37:40,959 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:40,964 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: pause
+2024-08-05 02:37:40,964 INFO    HandlerThread:13168 [handler.py:handle_request_pause():724] stopping system metrics thread
+2024-08-05 02:37:40,964 INFO    HandlerThread:13168 [system_monitor.py:finish():203] Stopping system monitor
+2024-08-05 02:37:40,964 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined cpu monitor
+2024-08-05 02:37:40,964 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-08-05 02:37:40,964 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-08-05 02:37:40,964 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-08-05 02:37:40,971 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined disk monitor
+2024-08-05 02:37:41,032 ERROR   gpu       :13168 [interfaces.py:aggregate():159] Failed to serialize metric: division by zero
+2024-08-05 02:37:41,033 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined gpu monitor
+2024-08-05 02:37:41,033 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined memory monitor
+2024-08-05 02:37:41,033 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined network monitor
+2024-08-05 02:37:41,033 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: resume
+2024-08-05 02:37:41,033 INFO    HandlerThread:13168 [handler.py:handle_request_resume():715] starting system metrics thread
+2024-08-05 02:37:41,034 INFO    HandlerThread:13168 [system_monitor.py:start():194] Starting system monitor
+2024-08-05 02:37:41,057 INFO    SystemMonitor:13168 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-08-05 02:37:41,057 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: pause
+2024-08-05 02:37:41,057 INFO    HandlerThread:13168 [handler.py:handle_request_pause():724] stopping system metrics thread
+2024-08-05 02:37:41,057 INFO    HandlerThread:13168 [system_monitor.py:finish():203] Stopping system monitor
+2024-08-05 02:37:41,057 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started cpu monitoring
+2024-08-05 02:37:41,057 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined cpu monitor
+2024-08-05 02:37:41,057 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-08-05 02:37:41,057 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-08-05 02:37:41,057 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-08-05 02:37:41,099 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: resume
+2024-08-05 02:37:41,099 INFO    HandlerThread:13168 [handler.py:handle_request_resume():715] starting system metrics thread
+2024-08-05 02:37:41,099 INFO    HandlerThread:13168 [system_monitor.py:start():194] Starting system monitor
+2024-08-05 02:37:41,100 INFO    SystemMonitor:13168 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-08-05 02:37:41,101 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: pause
+2024-08-05 02:37:41,104 INFO    HandlerThread:13168 [handler.py:handle_request_pause():724] stopping system metrics thread
+2024-08-05 02:37:41,105 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started cpu monitoring
+2024-08-05 02:37:41,105 INFO    HandlerThread:13168 [system_monitor.py:finish():203] Stopping system monitor
+2024-08-05 02:37:41,105 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined cpu monitor
+2024-08-05 02:37:41,105 WARNING HandlerThread:13168 [interfaces.py:finish():205] Failed to finish disk monitoring: cannot join thread before it is started
+2024-08-05 02:37:41,105 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started disk monitoring
+2024-08-05 02:37:41,106 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-08-05 02:37:41,106 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-08-05 02:37:41,106 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-08-05 02:37:41,184 DEBUG   SenderThread:13168 [sender.py:send():379] send: telemetry
+2024-08-05 02:37:41,184 DEBUG   SenderThread:13168 [sender.py:send():379] send: stats
+2024-08-05 02:37:41,184 DEBUG   SenderThread:13168 [sender.py:send():379] send: stats
+2024-08-05 02:37:41,185 DEBUG   SenderThread:13168 [sender.py:send():379] send: stats
+2024-08-05 02:37:41,319 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_created():271] file/dir created: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\conda-environment.yaml
+2024-08-05 02:37:41,321 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_created():271] file/dir created: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-metadata.json
+2024-08-05 02:37:41,322 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_created():271] file/dir created: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\requirements.txt
+2024-08-05 02:37:41,595 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: resume
+2024-08-05 02:37:41,595 INFO    HandlerThread:13168 [handler.py:handle_request_resume():715] starting system metrics thread
+2024-08-05 02:37:41,595 INFO    HandlerThread:13168 [system_monitor.py:start():194] Starting system monitor
+2024-08-05 02:37:41,599 INFO    wandb-upload_0:13168 [upload_job.py:push():130] Uploaded file C:\Users\LIMJAE~1\AppData\Local\Temp\tmpg4xtl8ehwandb\ic5w4qxl-wandb-metadata.json
+2024-08-05 02:37:41,665 INFO    SystemMonitor:13168 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-08-05 02:37:41,672 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started cpu monitoring
+2024-08-05 02:37:41,672 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started disk monitoring
+2024-08-05 02:37:41,673 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started gpu monitoring
+2024-08-05 02:37:41,685 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started memory monitoring
+2024-08-05 02:37:41,687 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:41,687 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:41,711 INFO    SystemMonitor:13168 [interfaces.py:start():188] Started network monitoring
+2024-08-05 02:37:41,973 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:42,319 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_created():271] file/dir created: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:42,508 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:42,510 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:42,510 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:42,512 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:42,977 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:43,328 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_created():271] file/dir created: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:43,435 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:43,436 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:43,436 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:43,437 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:43,701 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:43,702 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:43,992 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:44,335 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:44,335 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:44,360 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:44,362 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:44,362 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:44,363 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:44,790 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:37:44,991 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:45,278 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:45,279 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:45,279 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:45,281 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:45,343 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:45,711 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:45,712 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:45,992 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:46,300 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:46,301 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:46,301 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:46,301 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:46,344 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:46,344 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:47,009 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:47,229 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:47,230 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:47,231 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:47,231 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:47,360 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:47,719 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:47,719 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:48,010 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:48,157 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:48,159 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:48,159 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:48,159 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:48,375 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:48,375 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:49,021 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:49,081 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:49,082 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:49,082 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:49,083 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:49,377 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:49,732 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:49,733 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:49,842 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:37:50,016 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:50,016 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:50,017 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:50,017 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:50,028 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:50,379 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:50,380 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:51,036 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:51,039 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:51,039 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:51,041 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:51,044 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:51,393 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:51,751 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:51,751 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:51,973 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:51,974 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:51,974 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:51,975 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:52,046 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:52,394 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:52,395 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:52,899 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:52,900 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:52,900 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:52,900 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:53,059 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:53,409 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:53,768 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:53,768 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:53,852 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:53,852 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:53,853 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:53,853 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:54,070 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:54,417 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:54,418 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:54,810 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:54,811 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:54,811 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:54,812 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:54,917 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:37:55,075 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:55,429 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:55,734 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:55,735 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:55,735 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:55,737 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:55,779 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:55,780 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:56,022 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:37:56,022 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:37:56,076 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:56,437 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:56,437 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:56,831 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:56,832 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:56,832 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:56,838 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:57,087 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:57,442 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:57,781 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:57,782 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:57,782 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:57,782 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:57,789 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:57,789 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:58,091 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:58,444 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:58,445 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:37:58,710 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:58,711 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:58,711 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:58,712 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:59,095 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:37:59,458 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:37:59,602 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:37:59,603 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:37:59,603 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:37:59,604 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:37:59,802 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:59,802 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:37:59,922 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:00,111 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:00,462 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:00,462 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:00,512 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:00,512 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:00,513 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:00,513 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:01,116 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:01,476 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:01,486 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:01,486 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:01,486 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:01,487 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:01,810 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:01,810 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:02,122 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:02,401 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:02,402 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:02,402 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:02,403 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:02,492 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:02,493 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:03,125 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:03,279 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:03,279 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:03,279 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:03,280 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:03,496 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:03,821 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:03,821 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:04,127 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:04,165 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:04,166 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:04,166 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:04,166 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:04,499 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:04,499 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:04,942 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:05,053 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:05,054 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:05,054 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:05,054 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:05,133 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:05,505 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:05,829 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:05,830 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:05,932 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:05,933 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:05,933 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:05,934 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:06,137 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:06,507 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:06,508 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:06,909 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:06,910 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:06,910 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:06,911 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:07,140 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:07,509 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:07,799 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:07,799 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:07,800 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:07,800 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:07,836 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:07,836 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:08,142 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:08,519 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:08,520 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:08,686 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:08,686 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:08,686 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:08,687 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:09,151 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:09,522 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:09,572 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:09,572 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:09,573 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:09,573 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:09,846 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:09,846 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:09,999 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:10,153 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:10,485 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:10,485 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:10,485 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:10,486 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:10,525 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\config.yaml
+2024-08-05 02:38:10,525 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:10,526 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:11,025 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:38:11,025 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:38:11,158 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:11,463 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:11,463 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:11,464 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:11,464 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:11,538 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:11,902 ERROR   gpu       :13168 [interfaces.py:aggregate():159] Failed to serialize metric: division by zero
+2024-08-05 02:38:11,904 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:11,904 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:12,160 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:12,387 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:12,388 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:12,388 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:12,388 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:12,546 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:12,546 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:13,164 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:13,318 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:13,319 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:13,319 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:13,320 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:13,550 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:13,907 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:13,907 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:14,178 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:14,217 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:14,218 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:14,218 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:14,219 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:14,552 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:14,553 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:15,095 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:15,098 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:15,098 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:15,099 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:15,189 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:15,311 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:15,562 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:15,924 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:15,924 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:16,084 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:16,085 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:16,085 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:16,086 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:16,205 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:16,576 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:16,576 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:16,983 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:16,984 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:16,984 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:16,985 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:17,207 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:17,579 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:17,920 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:17,921 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:17,921 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:17,922 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:17,930 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:17,930 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:18,222 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:18,593 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:18,593 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:18,852 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:18,852 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:18,853 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:18,853 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:19,235 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:19,609 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:19,763 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:19,763 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:19,764 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:19,764 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:19,933 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:19,933 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:20,242 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:20,404 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:20,618 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:20,619 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:20,757 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:20,758 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:20,758 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:20,759 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:21,253 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:21,633 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:21,666 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:21,666 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:21,667 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:21,667 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:21,948 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:21,948 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:22,262 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:22,563 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:22,564 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:22,564 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:22,565 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:22,638 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:22,638 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:23,274 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:23,492 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:23,492 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:23,492 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:23,493 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:23,642 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:23,959 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:23,959 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:24,277 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:24,426 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:24,427 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:24,427 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:24,427 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:24,658 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:24,659 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:25,280 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:25,417 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:25,418 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:25,419 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:25,419 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:25,420 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:25,661 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:25,961 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:25,961 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:26,040 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:38:26,040 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:38:26,294 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:26,425 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:26,425 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:26,425 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:26,428 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:26,677 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:26,677 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:27,302 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:27,327 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:27,328 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:27,328 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:27,329 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:27,683 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:27,969 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:27,969 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:28,194 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:28,194 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:28,195 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:28,196 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:28,305 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:28,692 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:28,692 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:29,070 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:29,071 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:29,071 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:29,071 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:29,309 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:29,695 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:29,945 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:29,946 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:29,946 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:29,947 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:29,979 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:29,979 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:30,311 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:30,473 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:30,704 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:30,704 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:30,918 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:30,918 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:30,919 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:30,919 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:31,325 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:31,710 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:31,909 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:31,910 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:31,910 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:31,911 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:31,987 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:31,988 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:32,337 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:32,714 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:32,714 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:32,860 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:32,861 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:32,861 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:32,862 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:33,346 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:33,728 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:33,780 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:33,781 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:33,781 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:33,781 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:33,998 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:33,998 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:34,358 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:34,694 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:34,695 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:34,695 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:34,695 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:34,744 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:34,744 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:35,362 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:35,574 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:35,576 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:35,577 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:35,577 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:35,578 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:35,760 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:36,012 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:36,012 ERROR   gpu       :13168 [interfaces.py:monitor():142] Failed to sample metric: Not Supported
+2024-08-05 02:38:36,365 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:36,562 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: partial_history
+2024-08-05 02:38:36,562 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: pause
+2024-08-05 02:38:36,563 INFO    HandlerThread:13168 [handler.py:handle_request_pause():724] stopping system metrics thread
+2024-08-05 02:38:36,563 INFO    HandlerThread:13168 [system_monitor.py:finish():203] Stopping system monitor
+2024-08-05 02:38:36,568 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined cpu monitor
+2024-08-05 02:38:36,569 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined disk monitor
+2024-08-05 02:38:36,569 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-08-05 02:38:36,569 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-08-05 02:38:36,569 DEBUG   SystemMonitor:13168 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-08-05 02:38:36,570 DEBUG   SenderThread:13168 [sender.py:send():379] send: history
+2024-08-05 02:38:36,570 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: summary_record
+2024-08-05 02:38:36,570 INFO    SenderThread:13168 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-08-05 02:38:36,599 ERROR   gpu       :13168 [interfaces.py:aggregate():159] Failed to serialize metric: division by zero
+2024-08-05 02:38:36,600 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined gpu monitor
+2024-08-05 02:38:36,600 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined memory monitor
+2024-08-05 02:38:36,600 INFO    HandlerThread:13168 [interfaces.py:finish():200] Joined network monitor
+2024-08-05 02:38:36,600 DEBUG   SenderThread:13168 [sender.py:send():379] send: stats
+2024-08-05 02:38:36,774 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\wandb-summary.json
+2024-08-05 02:38:36,775 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:37,375 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:38,387 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:38,795 INFO    Thread-16 :13168 [dir_watcher.py:_on_file_modified():288] file/dir modified: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\files\output.log
+2024-08-05 02:38:39,403 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:40,406 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:40,649 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:41,048 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:38:41,049 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:38:41,418 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:42,424 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:43,426 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:44,427 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:45,433 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:46,085 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:46,444 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:47,442 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:48,455 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:49,459 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:50,463 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:51,466 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:52,086 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:52,482 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:53,486 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:54,492 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:55,507 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:56,053 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:38:56,053 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:38:56,502 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:57,354 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:38:57,518 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:58,523 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:38:59,536 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:00,547 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:01,556 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:02,572 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:03,133 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:03,586 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:04,581 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:05,587 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:06,588 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:07,603 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:08,608 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:09,124 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:09,623 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:10,633 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:11,065 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:39:11,065 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:39:11,633 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:12,646 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:13,649 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:14,371 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:14,665 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:15,666 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:16,678 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:17,691 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:18,700 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:19,713 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:20,172 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:20,719 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:21,724 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:22,727 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:23,730 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:24,744 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:25,173 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:25,747 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:26,080 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:39:26,081 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:39:26,754 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:27,757 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:28,772 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:29,760 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:30,358 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:30,789 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:31,792 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:32,812 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:33,824 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:34,838 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:35,842 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:36,149 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:36,855 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:37,863 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:38,875 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:39,891 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:40,905 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:41,087 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:39:41,087 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:39:41,319 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:41,907 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:42,921 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:43,924 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:44,935 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:45,941 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:46,959 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:47,187 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:47,957 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:48,971 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:49,975 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:50,965 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:51,974 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:52,977 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:53,189 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:53,991 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:54,978 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:55,993 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:56,128 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:39:56,129 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:39:57,006 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:57,995 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:39:58,377 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:39:59,009 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:00,026 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:01,037 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:02,030 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:03,036 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:04,042 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:04,208 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:05,044 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:06,059 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:07,061 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:08,074 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:09,092 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:09,223 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:10,094 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:11,097 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:11,128 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:40:11,128 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:40:12,114 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:13,131 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:14,148 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:14,424 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:15,158 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:16,164 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:17,167 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:18,176 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:19,187 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:20,203 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:20,255 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:21,208 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:22,210 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:23,223 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:24,224 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:25,229 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:25,274 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:26,141 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:40:26,141 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:40:26,242 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:27,242 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:28,229 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:29,242 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:30,242 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:30,456 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:31,255 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:32,260 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:33,275 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:34,278 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:35,291 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:36,257 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:36,306 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:37,308 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:38,323 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:39,339 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:40,346 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:41,146 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-05 02:40:41,146 DEBUG   SenderThread:13168 [sender.py:send_request():406] send_request: stop_status
+2024-08-05 02:40:41,366 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:41,396 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:42,372 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:43,373 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:44,381 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:45,382 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:46,387 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:47,291 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:47,402 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:48,408 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:49,424 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:50,438 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-05 02:40:52,306 DEBUG   HandlerThread:13168 [handler.py:handle_request():158] handle_request: status_report
+2024-08-05 02:40:53,959 WARNING StreamThr :13168 [internal.py:is_dead():413] Internal process exiting, parent pid 17372 disappeared
+2024-08-05 02:40:53,959 ERROR   StreamThr :13168 [internal.py:wandb_internal():151] Internal process shutdown.
+2024-08-05 02:40:53,960 INFO    MainThread:13168 [internal.py:handle_exit():75] Internal process exited
+2024-08-05 02:40:54,318 INFO    WriterThread:13168 [datastore.py:close():296] close: c:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_023739-tf21u2de\run-tf21u2de.wandb
+2024-08-05 02:40:54,318 INFO    HandlerThread:13168 [handler.py:finish():882] shutting down handler
+2024-08-05 02:40:54,318 INFO    SenderThread:13168 [sender.py:finish():1608] shutting down sender

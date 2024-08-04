@@ -1,0 +1,29 @@
+2024-08-05 02:44:06,128 INFO    MainThread:12728 [wandb_setup.py:_flush():76] Current SDK version is 0.17.5
+2024-08-05 02:44:06,128 INFO    MainThread:12728 [wandb_setup.py:_flush():76] Configure stats pid to 12728
+2024-08-05 02:44:06,128 INFO    MainThread:12728 [wandb_setup.py:_flush():76] Loading settings from C:\Users\LimJaesung\.config\wandb\settings
+2024-08-05 02:44:06,128 INFO    MainThread:12728 [wandb_setup.py:_flush():76] Loading settings from C:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\settings
+2024-08-05 02:44:06,129 INFO    MainThread:12728 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-08-05 02:44:06,129 INFO    MainThread:12728 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-08-05 02:44:06,131 INFO    MainThread:12728 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'TabDDPM\\main.py', 'program_abspath': 'C:\\Users\\LimJaesung\\Documents\\Git\\Synthesizers\\TabDDPM\\main.py', 'program': 'C:\\Users\\LimJaesung\\Documents\\Git\\Synthesizers\\TabDDPM\\main.py'}
+2024-08-05 02:44:06,131 INFO    MainThread:12728 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-08-05 02:44:06,131 INFO    MainThread:12728 [wandb_init.py:_log_setup():529] Logging user logs to C:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_024406-axuz25v8\logs\debug.log
+2024-08-05 02:44:06,131 INFO    MainThread:12728 [wandb_init.py:_log_setup():530] Logging internal logs to C:\Users\LimJaesung\Documents\Git\Synthesizers\TabDDPM\wandb\run-20240805_024406-axuz25v8\logs\debug-internal.log
+2024-08-05 02:44:06,131 INFO    MainThread:12728 [wandb_init.py:init():569] calling init triggers
+2024-08-05 02:44:06,131 INFO    MainThread:12728 [wandb_init.py:init():576] wandb.init called with sweep_config: {}
+config: {}
+2024-08-05 02:44:06,131 INFO    MainThread:12728 [wandb_init.py:init():619] starting backend
+2024-08-05 02:44:06,131 INFO    MainThread:12728 [wandb_init.py:init():623] setting up manager
+2024-08-05 02:44:06,135 INFO    MainThread:12728 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn, using: spawn
+2024-08-05 02:44:06,138 INFO    MainThread:12728 [wandb_init.py:init():631] backend started and connected
+2024-08-05 02:44:06,143 INFO    MainThread:12728 [wandb_init.py:init():720] updated telemetry
+2024-08-05 02:44:06,207 INFO    MainThread:12728 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-08-05 02:44:06,756 INFO    MainThread:12728 [wandb_run.py:_on_init():2435] communicating current version
+2024-08-05 02:44:06,874 INFO    MainThread:12728 [wandb_run.py:_on_init():2444] got version response 
+2024-08-05 02:44:06,874 INFO    MainThread:12728 [wandb_init.py:init():804] starting run threads in backend
+2024-08-05 02:44:07,144 INFO    MainThread:12728 [wandb_run.py:_console_start():2413] atexit reg
+2024-08-05 02:44:07,144 INFO    MainThread:12728 [wandb_run.py:_redirect():2255] redirect: wrap_raw
+2024-08-05 02:44:07,144 INFO    MainThread:12728 [wandb_run.py:_redirect():2320] Wrapping output streams.
+2024-08-05 02:44:07,144 INFO    MainThread:12728 [wandb_run.py:_redirect():2345] Redirects installed.
+2024-08-05 02:44:07,157 INFO    MainThread:12728 [wandb_init.py:init():847] run started, returning control to user process
+2024-08-05 02:44:07,173 INFO    MainThread:12728 [wandb_run.py:_config_callback():1382] config_cb None None {'seed': 0, 'dataset': 'kings', 'test_size': 0.2, 'steps': 10000, 'lr': 0.002, 'weight_decay': 0.0001, 'batch_size': 1024, 'model_type': 'mlp', 'model_params': None, 'num_timesteps': 1000, 'gaussian_loss_type': 'mse', 'scheduler': 'cosine', 'gaussian_parametrization': 'eps', 'multinomial_loss_type': 'vb_stochastic', 'parametrization': 'x0', 'embedding_dim': [128, 128], 'dropout': 0.0, 'cuda': True}
+2024-08-05 02:44:14,066 WARNING MsgRouterThr:12728 [router.py:message_loop():77] message_loop has been closed
