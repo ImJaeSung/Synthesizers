@@ -1,6 +1,7 @@
 #%%
 from tqdm import tqdm
 from collections import namedtuple
+import pandas as pd
 import numpy as np
 
 import torch
@@ -57,6 +58,7 @@ class CustomDataset(Dataset):
 
         self.x_raw_data = x_train_data[self.features] if train else x_test_data[self.features]
         self.y_raw_data = y_train_data if train else y_test_data
+        self.raw_data = pd.concat([self.x_raw_data, self.y_raw_data], axis=1)
 
         x_data = x_data.reset_index(drop=True)
         y_data = y_data.reset_index(drop=True)
@@ -100,7 +102,7 @@ class CustomDataset(Dataset):
             scaler.fit(feature)
             self.cont_scalers[col] = scaler
         else:
-            scaler = self.scalers[col]
+            scaler = self.cont_scalers[col]
 
         transformed = scaler.transform(feature)[:, 0]
         
@@ -117,7 +119,7 @@ class CustomDataset(Dataset):
             scaler.fit(feature)
             self.disc_scalers[col] = scaler
         else:
-            scaler = self.scalers[col]
+            scaler = self.disc_scalers[col]
 
         transformed = scaler.transform(feature).toarray()
         return transformed

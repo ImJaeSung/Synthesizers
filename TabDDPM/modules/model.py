@@ -1,14 +1,20 @@
 #%%
+"""Reference:
+[1]https://github.com/yandex-research/tab-ddpm/blob/main/tab_ddpm/gaussian_multinomial_diffsuion.py"""
 """
 Based on https://github.com/openai/guided-diffusion/blob/main/guided_diffusion
 and https://github.com/ehoogeboom/multinomial_diffusion
 """
-import torch.nn as nn
-import torch.nn.functional as F
-import torch
+from tqdm import tqdm
 import math
 
+import pandas as pd
 import numpy as np
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
 from modules.utils import *
 #%%
 """
@@ -99,6 +105,7 @@ class GaussianMultinomialDiffusion(nn.Module):
         self.multinomial_loss_type = config["multinomial_loss_type"]
         self.num_timesteps = config["num_timesteps"]
         self.parametrization = config["parametrization"]
+        self.gaussian_parametrization = config["gaussian_parametrization"]
         self.scheduler = config["scheduler"]
 
         alphas = 1. - get_named_beta_schedule(self.scheduler, self.num_timesteps)
@@ -701,8 +708,6 @@ class GaussianMultinomialDiffusion(nn.Module):
         out_mean = torch.stack(out_mean, dim=1)
         true_mean = torch.stack(true_mean, dim=1)
 
-
-
         prior_gauss = self._prior_gaussian(x_num)
 
         prior_multin = torch.tensor([0.0])
@@ -954,40 +959,59 @@ class GaussianMultinomialDiffusion(nn.Module):
             if has_cat:
                 log_z = self.p_sample(model_out_cat, log_z, t, out_dict)
 
-        print()
         z_ohe = torch.exp(log_z).round()
         z_cat = log_z
         if has_cat:
             z_cat = ohe_to_categories(z_ohe, self.num_classes)
         sample = torch.cat([z_norm, z_cat], dim=1).cpu()
         return sample, out_dict
-    
-    def sample_all(self, num_samples, batch_size, y_dist, ddim=False):
+    #%%    
+    def generate_synthetic_data(
+            self, num_samples, train_dataset, ddim=False
+        ):
         if ddim:
             print('Sample using DDIM.')
             sample_fn = self.sample_ddim
         else:
             sample_fn = self.sample
         
-        b = batch_size
+        data = []
+        target = []
+        batch_size = 64
+        steps = num_samples // batch_size + 1
+        _, y_dist = torch.unique(
+            torch.from_numpy(np.array(train_dataset.y)), return_counts=True
+        )
 
-        all_y = []
-        all_samples = []
-        num_generated = 0
-        while num_generated < num_samples:
-            sample, out_dict = sample_fn(b, y_dist)
-            mask_nan = torch.any(sample.isnan(), dim=1)
-            sample = sample[~mask_nan]
-            out_dict['y'] = out_dict['y'][~mask_nan]
+        for _ in tqdm(range(steps), desc="Generate Synthetic Dataset..."):
+            with torch.no_grad():
+                sample, out_dict = sample_fn(batch_size, y_dist.float())
+                mask_nan = torch.any(sample.isnan(), dim=1)
+                sample = sample[~mask_nan]
+                out_dict['y'] = out_dict['y'][~mask_nan]
 
-            all_samples.append(sample)
-            all_y.append(out_dict['y'].cpu())
-            if sample.shape[0] != b:
-                raise FoundNANsError
-            num_generated += sample.shape[0]
+                data.append(sample)
+                target.append(out_dict['y'].cpu())
 
-        x_gen = torch.cat(all_samples, dim=0)[:num_samples]
-        y_gen = torch.cat(all_y, dim=0)[:num_samples]
+                if sample.shape[0] != batch_size:
+                    raise FoundNANsError
 
-        return x_gen, y_gen
+        x_gen = torch.cat(data, dim=0)[:num_samples]
+        y_gen = torch.cat(target, dim=0)[:num_samples]
+
+        data = torch.cat([x_gen, y_gen.unsqueeze(-1)], axis=1)
+        assert data.size() == (num_samples, train_dataset.EncodedInfo.num_features + 1)
+        
+        data = pd.DataFrame(
+            data, columns=train_dataset.features+[train_dataset.ClfTarget])
+
+        """un-standardization of synthetic data"""
+        for col, scaler in train_dataset.cont_scalers.items():
+            data[[col]] = scaler.inverse_transform(data[[col]])
+
+        """post-process"""
+        data[train_dataset.categorical_features] = data[train_dataset.categorical_features].astype(int)
+        data[train_dataset.integer_features] = data[train_dataset.integer_features].round(0).astype(int)
+        
+        return data
 # %%

@@ -1,15 +1,24 @@
 """
+Reference:
+[1] https://github.com/yandex-research/tab-ddpm/blob/main/tab_ddpm/modules.py
+[2] https://github.com/yandex-research/tab-ddpm/blob/main/scripts/utils_train.py
+[3] https://github.com/yandex-research/tab-ddpm/blob/main/tab_ddpm/utils.py
+"""
+#%%
+"""
 Code was adapted from https://github.com/Yura52/rtdl
 """
 #%%
 import math
-from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union, cast
+from typing import Callable, List, Type, Union
+import numpy as np
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim
 from torch import Tensor
+
+from inspect import isfunction
 
 ModuleType = Union[str, Callable[..., nn.Module]]
 #%%
@@ -294,12 +303,6 @@ class MLPDiffusion(nn.Module):
 
 #%%
 #%%
-import torch
-import numpy as np
-import torch.nn.functional as F
-from torch.profiler import record_function
-from inspect import isfunction
-
 def normal_kl(mean1, logvar1, mean2, logvar2):
     """
     Compute the KL divergence between two gaussians.
@@ -469,8 +472,7 @@ class FoundNANsError(BaseException):
     def __init__(self, message='Found NANs during sampling.'):
         super(FoundNANsError, self).__init__(message)
 #%%
-import numpy as np
-import os
+
 # import lib
 # from modules import MLPDiffusion, ResNetDiffusion
 
@@ -502,57 +504,4 @@ def concat_y_to_X(X, y):
         return y.reshape(-1, 1)
     return np.concatenate([y.reshape(-1, 1), X], axis=1)
 
-# def make_dataset(
-#     data_path: str,
-#     T: lib.Transformations,
-#     num_classes: int,
-#     is_y_cond: bool,
-#     change_val: bool
-# ):
-#     # classification
-#     if num_classes > 0:
-#         X_cat = {} if os.path.exists(os.path.join(data_path, 'X_cat_train.npy')) or not is_y_cond else None
-#         X_num = {} if os.path.exists(os.path.join(data_path, 'X_num_train.npy')) else None
-#         y = {} 
-
-#         for split in ['train', 'val', 'test']:
-#             X_num_t, X_cat_t, y_t = lib.read_pure_data(data_path, split)
-#             if X_num is not None:
-#                 X_num[split] = X_num_t
-#             if not is_y_cond:
-#                 X_cat_t = concat_y_to_X(X_cat_t, y_t)
-#             if X_cat is not None:
-#                 X_cat[split] = X_cat_t
-#             y[split] = y_t
-#     else:
-#         # regression
-#         X_cat = {} if os.path.exists(os.path.join(data_path, 'X_cat_train.npy')) else None
-#         X_num = {} if os.path.exists(os.path.join(data_path, 'X_num_train.npy')) or not is_y_cond else None
-#         y = {}
-
-#         for split in ['train', 'val', 'test']:
-#             X_num_t, X_cat_t, y_t = lib.read_pure_data(data_path, split)
-#             if not is_y_cond:
-#                 X_num_t = concat_y_to_X(X_num_t, y_t)
-#             if X_num is not None:
-#                 X_num[split] = X_num_t
-#             if X_cat is not None:
-#                 X_cat[split] = X_cat_t
-#             y[split] = y_t
-
-#     info = lib.load_json(os.path.join(data_path, 'info.json'))
-
-#     D = lib.Dataset(
-#         X_num,
-#         X_cat,
-#         y,
-#         y_info={},
-#         task_type=lib.TaskType(info['task_type']),
-#         n_classes=info.get('n_classes')
-#     )
-
-#     if change_val:
-#         D = lib.change_val(D)
-    
-#     return lib.transform_dataset(D, T, None)
 # %%
