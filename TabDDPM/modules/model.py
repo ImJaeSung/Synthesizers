@@ -85,20 +85,41 @@ class GaussianMultinomialDiffusion(nn.Module):
             
         self.num_numerical_features = np.array(EncodedInfo.num_continuous_features)
         self.num_classes = np.array(EncodedInfo.num_categories) # it as a vector [K1, K2, ..., Km]
-        self.num_classes_expanded = torch.from_numpy(
-            np.concatenate(
-                [
-                    self.num_classes[i].repeat(self.num_classes[i]) for i in range(len(self.num_classes))
-                    ]
-            )
-        ).to(device)
+        # self.num_classes_expanded = torch.from_numpy(
+        #     np.concatenate(
+        #         [
+        #             self.num_classes[i].repeat(self.num_classes[i]) for i in range(len(self.num_classes))
+        #             ]
+        #     )
+        # ).to(device)
 
-        self.slices_for_classes = [np.arange(self.num_classes[0])]
-        offsets = np.cumsum(self.num_classes)
+        # self.slices_for_classes = [np.arange(self.num_classes[0])]
+        # offsets = np.cumsum(self.num_classes)
 
-        for i in range(1, len(offsets)):
-            self.slices_for_classes.append(np.arange(offsets[i - 1], offsets[i]))
-        self.offsets = torch.from_numpy(np.append([0], offsets)).to(device)
+        # for i in range(1, len(offsets)):
+        #     self.slices_for_classes.append(np.arange(offsets[i - 1], offsets[i]))
+        # self.offsets = torch.from_numpy(np.append([0], offsets)).to(device)
+
+                
+        if len(self.num_classes) > 0:
+            self.num_classes_expanded = torch.from_numpy(
+                np.concatenate(
+                    [
+                        self.num_classes[i].repeat(self.num_classes[i]) for i in range(len(self.num_classes))
+                        ]
+                )
+            ).to(device)
+            
+            self.slices_for_classes = [np.arange(self.num_classes[0])]
+            offsets = np.cumsum(self.num_classes)
+
+            for i in range(1, len(offsets)):
+                self.slices_for_classes.append(np.arange(offsets[i - 1], offsets[i]))
+            self.offsets = torch.from_numpy(np.append([0], offsets)).to(device)
+        else:
+            self.num_classes_expanded = torch.tensor([]).to(device)
+            self.slices_for_classes = []
+            self.offsets = torch.tensor([0]).to(device)
 
         self._denoise_fn = denoise_fn
         self.gaussian_loss_type = config["gaussian_loss_type"]
