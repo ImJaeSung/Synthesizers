@@ -50,7 +50,7 @@ def get_args(debug):
     parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         Dataset options: 
-                        abalone, adult, banknote, breast, concrete, 
+                        abalone, banknote, breast, concrete, letter
                         kings, loan, covertype, redwine, whitewine
                         """)
     parser.add_argument("--test_size", default=0.2, type=float,

@@ -55,7 +55,7 @@ def get_args(debug):
     parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         Dataset options: 
-                        abalone, adult, banknote, breast, concrete, 
+                        abalone, banknote, breast, concrete, letter 
                         kings, loan, covertype, redwine, whitewine
                         """)
     if debug:
@@ -65,7 +65,7 @@ def get_args(debug):
 #%%
 def main():
     #%%
-    config = vars(get_args(debug=True)) # default configuration
+    config = vars(get_args(debug=False)) # default configuration
     #%%
     """model load"""
     base_name = f"TabDDPM_{config['dataset']}"
@@ -146,7 +146,7 @@ def main():
         train_dataset=train_dataset,
         ddim=False)
     #%%
-    results = evaluate(syndata, train_dataset, test_dataset, config)
+    results = evaluate(syndata, train_dataset, test_dataset, config, device)
     results = results._asdict()
 
     for x, y in results.items():
