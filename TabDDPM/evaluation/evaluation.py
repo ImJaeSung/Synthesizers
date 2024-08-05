@@ -14,6 +14,7 @@ Metrics = namedtuple(
         "GoF",
         "MMD",
         "CW",
+        "WD",
         "base_reg", 
         "syn_reg", 
         "base_cls", 
@@ -75,7 +76,7 @@ def evaluate(syndata, train_dataset, test_dataset, config, device):
     AD = metric_privacy.AttributeDisclosure(train_dataset, syndata)
     
     return Metrics(
-        KL, GoF, MMD, CW, 
+        KL, GoF, MMD, CW, WD,
         base_reg, syn_reg, base_cls, syn_cls, model_selection, feature_selection,
         Kanon_base, Kanon_syn, KMap, DCR_RS, DCR_RR, DCR_SS, AD
     )

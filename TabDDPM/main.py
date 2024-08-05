@@ -56,7 +56,7 @@ def get_args(debug):
     parser.add_argument("--test_size", default=0.2, type=float,
                         help="the ratio of train test split")
       
-    parser.add_argument('--epochs', default=300, type=int,
+    parser.add_argument('--epochs', default=500, type=int,
                         help='Number epochs to train TabDDPM.')
     parser.add_argument("--lr", type=float, default=0.002, 
                         help="Learning rate")
