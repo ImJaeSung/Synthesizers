@@ -472,13 +472,7 @@ class FoundNANsError(BaseException):
     def __init__(self, message='Found NANs during sampling.'):
         super(FoundNANsError, self).__init__(message)
 #%%
-
-# import lib
-# from modules import MLPDiffusion, ResNetDiffusion
-
-def get_model(
-    config,
-    ): 
+def get_model(config): 
     print(config["model_type"])
     if config["model_type"] == 'mlp':
         model = MLPDiffusion(config)

@@ -81,9 +81,13 @@ class CustomDataset(Dataset):
                 self.transform_categorical(x_data, categorical_feature, config)
             )
         #%%
-        self.data = np.concatenate(
-            (np.vstack(cont_transformed).T, np.hstack(disc_transformed)), axis=1
-        )
+        if disc_transformed is not None and len(disc_transformed) > 0:
+            self.data = np.concatenate(
+                (np.vstack(cont_transformed).T, np.hstack(disc_transformed)), axis=1
+            )
+        else:
+            self.data = np.vstack(cont_transformed).T
+            
         self.y = y_data
 
         self.EncodedInfo = EncodedInfo(
