@@ -1,4 +1,5 @@
 #%%
+import copy
 from tqdm import tqdm
 from collections import namedtuple
 import pandas as pd
@@ -30,11 +31,11 @@ class CustomDataset(Dataset):
 
         data, continuous_features, categorical_features, integer_features, ClfTarget = load_raw_data(config)
         self.continuous_features = continuous_features
-        self.categorical_features = categorical_features
+        self.categorical_features = copy.deepcopy(categorical_features)
         self.integer_features = integer_features
         self.ClfTarget = ClfTarget
         
-        self.features = continuous_features + categorical_features
+        self.features = self.continuous_features + self.categorical_features
         self.num_continuous_features = len(self.continuous_features)
         
         # encoding for categorical variables.
@@ -92,6 +93,7 @@ class CustomDataset(Dataset):
 
         self.EncodedInfo = EncodedInfo(
             len(self.features), self.num_continuous_features, self.num_categories)
+        
     #%%
     def transform_continuous(self, data, col, config):
         feature = data[[col]].to_numpy().astype(float)

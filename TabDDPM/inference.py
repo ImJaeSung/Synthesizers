@@ -145,6 +145,7 @@ def main():
         num_samples=n, 
         train_dataset=train_dataset,
         ddim=False)
+    
     #%%
     results = evaluate(syndata, train_dataset, test_dataset, config, device)
     results = results._asdict()
