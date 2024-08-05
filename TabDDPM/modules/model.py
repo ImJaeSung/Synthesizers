@@ -1026,7 +1026,7 @@ class GaussianMultinomialDiffusion(nn.Module):
         assert data.size() == (num_samples, train_dataset.EncodedInfo.num_features + 1)
         
         data = pd.DataFrame(
-            data, columns=train_dataset.features)
+            data, columns=train_dataset.features+[train_dataset.ClfTarget])
 
         """un-standardization of synthetic data"""
         for col, scaler in train_dataset.cont_scalers.items():

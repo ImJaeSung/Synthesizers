@@ -35,7 +35,7 @@ class CustomDataset(Dataset):
         self.integer_features = integer_features
         self.ClfTarget = ClfTarget
         
-        self.features = self.continuous_features + self.categorical_features
+        self.features = continuous_features + categorical_features
         self.num_continuous_features = len(self.continuous_features)
         
         # encoding for categorical variables.
