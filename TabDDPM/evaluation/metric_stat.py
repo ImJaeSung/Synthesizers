@@ -83,7 +83,7 @@ def GoodnessOfFit(train_dataset, syndata):
         result.append(statistic)
     return np.mean(result)
 #%%
-def MaximumMeanDiscrepancy(train_dataset, syndata):
+def MaximumMeanDiscrepancy(train_dataset, syndata, large=False):
     """
     Joint statistical fidelity: Maximum Mean Discrepancy (MMD)
     : lower is better
@@ -95,6 +95,10 @@ def MaximumMeanDiscrepancy(train_dataset, syndata):
     # only continuous
     train = train[train_dataset.continuous_features]
     syndata = syndata[train_dataset.continuous_features]
+    
+    if large:
+        train = train.sample(frac=0.05, random_state=0)
+        syndata = syndata.sample(frac=0.05, random_state=0)
     
     scaler = StandardScaler().fit(train)
     train_ = scaler.transform(train)
@@ -115,7 +119,7 @@ def MaximumMeanDiscrepancy(train_dataset, syndata):
     MMD = XX.mean() + YY.mean() - 2 * XY.mean()
     return MMD
 #%%
-def WassersteinDistance(train_dataset, syndata, device):
+def WassersteinDistance(train_dataset, syndata, large=False):
     """
     Joint statistical fidelity: Wasserstein Distance
     : lower is better
@@ -126,19 +130,27 @@ def WassersteinDistance(train_dataset, syndata, device):
     train = train[train_dataset.continuous_features]
     syndata = syndata[train_dataset.continuous_features]
     
+    if large:
+        train = train.sample(frac=0.05, random_state=0)
+        syndata = syndata.sample(frac=0.05, random_state=0)
+    
     train_ = train.values.reshape(len(train), -1)
     syndata_ = syndata.values.reshape(len(syndata), -1)
     
     # assert len(train_) == len(syndata_)
 
     scaler = StandardScaler().fit(train_)
-    train_ = scaler.transform(train_)
-    syndata_ = scaler.transform(syndata_)
+    train_ = scaler.transform(train_).astype(np.float32)
+    syndata_ = scaler.transform(syndata_).astype(np.float32)
     
-    train_ = torch.from_numpy(train_).to(device)
-    syndata_ = torch.from_numpy(syndata_).to(device)
-    
+    train_ = torch.from_numpy(train_)
+    syndata_ = torch.from_numpy(syndata_)
+
     OT_solver = SamplesLoss(loss="sinkhorn")
+    """
+    Compute WD for 4000 samples and average due to the following error:
+    "NameError: name 'generic_logsumexp' is not defined"
+    """
     if len(train_) > 4000:
         WD = []
         iter_ = len(train_) // 4000 + 1
@@ -149,11 +161,12 @@ def WassersteinDistance(train_dataset, syndata, device):
     else:
         WD = OT_solver(train_, syndata_).cpu().numpy().item()
     return WD
+
 #%%
 def phi(s, D):
     return (1 + (4 * s) / (2 * D - 3)) ** (-1 / 2)
 
-def CramerWoldDistance(train_dataset, syndata, config, device):
+def CramerWoldDistance(train_dataset, syndata, config, device, large=False):
     """
     Joint statistical fidelity: Cramer-Wold Distance
     : lower is better
@@ -167,6 +180,10 @@ def CramerWoldDistance(train_dataset, syndata, config, device):
         train = train.sample(frac=0.5, random_state=42)
         syndata = syndata.sample(frac=0.5, random_state=42)
     
+    if large:
+        train = train.sample(frac=0.05, random_state=0)
+        syndata = syndata.sample(frac=0.05, random_state=0)
+
     scaler = StandardScaler().fit(train)
     train_ = scaler.transform(train)
     syndata_ = scaler.transform(syndata)
