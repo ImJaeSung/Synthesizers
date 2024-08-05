@@ -954,7 +954,9 @@ class GaussianMultinomialDiffusion(nn.Module):
         device = self.log_alpha.device
         z_norm = torch.randn((b, self.num_numerical_features), device=device)
 
-        has_cat = self.num_classes[0] != 0
+        # has_cat = self.num_classes[0] != 0
+        has_cat = len(self.num_classes) > 0
+
         log_z = torch.zeros((b, 0), device=device).float()
         if has_cat:
             uniform_logits = torch.zeros((b, len(self.num_classes_expanded)), device=device)

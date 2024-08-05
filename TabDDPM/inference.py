@@ -52,7 +52,7 @@ def get_args(debug):
     
     parser.add_argument('--ver', type=int, default=0, 
                         help='model version number')
-    parser.add_argument('--dataset', type=str, default='kings', 
+    parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         Dataset options: 
                         abalone, adult, banknote, breast, concrete, 
@@ -65,7 +65,7 @@ def get_args(debug):
 #%%
 def main():
     #%%
-    config = vars(get_args(debug=False)) # default configuration
+    config = vars(get_args(debug=True)) # default configuration
     #%%
     """model load"""
     base_name = f"TabDDPM_{config['dataset']}"
@@ -105,7 +105,7 @@ def main():
     
     config['is_y_cond'] = True
     config['num_classes'] = train_dataset.num_classes
-    config['d_in'] = d_in
+    config['d_in'] = d_in.astype(int)
     #%%
     """model"""
     model = get_model(config)
