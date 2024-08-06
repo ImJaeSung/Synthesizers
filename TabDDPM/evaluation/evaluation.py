@@ -53,7 +53,8 @@ def evaluate(syndata, train_dataset, test_dataset, config, device):
     
     print("\n5. Statistical Fidelity: Cramer-Wold Distance...")
     if config["dataset"] == "covtype":
-        CW = metric_stat.CramerWoldDistance(train_dataset, syndata, config, device, large=True)
+        # CW = metric_stat.CramerWoldDistance(train_dataset, syndata, config, device, large=True)
+        CW = 999 # OOM issue
     else:
         CW = metric_stat.CramerWoldDistance(train_dataset, syndata, config, device)
 
