@@ -1,9 +1,97 @@
 #%%
 import pandas as pd
-import numpy as np
+from scipy.io.arff import loadarff 
 #%%
 def load_raw_data(config):
-    if config["dataset"] == "abalone":
+    if config["dataset"] == "banknote":
+        data = pd.read_csv('./data/banknote.txt', header=None)
+        data.columns = ["variance", "skewness", "curtosis", "entropy", "class"]
+        assert data.isna().sum().sum() == 0
+        
+        continuous_features = ["variance", "skewness", "curtosis", "entropy"]
+        categorical_features = ['class']
+        integer_features = []
+        ClfTarget = "class"
+        
+    elif config["dataset"] == "whitewine":
+        data = pd.read_csv('./data/whitewine.csv', delimiter=";")
+        columns = list(data.columns)
+        columns.remove("quality")
+        assert data.isna().sum().sum() == 0
+        
+        continuous_features = columns
+        categorical_features = ["quality"]
+        integer_features = []
+        ClfTarget = "quality"
+    
+    elif config["dataset"] == "breast":
+        data = pd.read_csv('./data/breast.csv')
+        data = data.drop(columns=['id']) # drop ID number
+        assert data.isna().sum().sum() == 0
+        
+        continuous_features = [x for x in data.columns if x != "diagnosis"]
+        categorical_features = ["diagnosis"]
+        integer_features = []
+        ClfTarget = "diagnosis"
+        
+    elif config["dataset"] == "bankruptcy":
+        data = pd.read_csv('./data/bankruptcy.csv')
+        data.columns = [x.strip() for x in data.columns]
+        assert data.isna().sum().sum() == 0
+        
+        continuous_features = [x for x in data.columns if x != "Bankrupt?"]
+        categorical_features = ["Bankrupt?"]
+        integer_features = [
+            "Research and development expense rate",
+            "Total Asset Growth Rate",
+            "Inventory Turnover Rate (times)",
+            "Quick Asset Turnover Rate",
+            "Cash Turnover Rate",
+            "Liability-Assets Flag",
+            "Net Income Flag"
+        ]
+        ClfTarget = "Bankrupt?"
+        
+    elif config["dataset"] == "musk":
+        data = pd.read_csv('./data/musk.data', header=None)
+        assert data.isna().sum().sum() == 0
+            
+        column = [i for i in range(1, 167)]
+        columns = [
+            'molecule_name', 
+            'conformation_name'
+        ] + [
+            f"f{x}" for x in column
+        ] + [
+            'class'
+        ]
+        data.columns = columns
+        columns.remove('molecule_name') 
+        columns.remove('conformation_name')
+        columns.remove('class') 
+        continuous_features = columns
+        categorical_features = [
+            'molecule_name', 
+            'conformation_name',
+            'class', 
+        ]
+        integer_features = continuous_features
+        ClfTarget = 'class'
+    
+    elif config["dataset"] == "madelon":
+        data, _ = loadarff('./data/madelon.arff') # output : data, meta
+        data = pd.DataFrame(data)
+        assert data.isna().sum().sum() == 0
+
+        for column in data.select_dtypes([object]).columns:
+            data[column] = data[column].str.decode('utf-8') # object decoding
+        continuous = [i for i in range(1, 501)]
+        continuous_features = [f"V{x}" for x in continuous]
+        categorical_features = ["Class"]
+        integer_features = continuous_features
+        ClfTarget = 'Class'
+        
+    elif config["dataset"] == "abalone":
         data = pd.read_csv('./data/abalone.data', header=None)
         columns = [
             "Sex",
@@ -29,257 +117,132 @@ def load_raw_data(config):
         ]
         integer_features = []
         ClfTarget = "Rings"
-        
-    elif config["dataset"] == "adult":
-        data = pd.read_csv('./data/adult.csv')
-        data = data[(data == '?').sum(axis=1) == 0]
-        
-        assert data.isna().sum().sum() == 0
-        
-        continuous_features = [
-            'age',
-            'education.num',
-            'capital.gain', 
-            'capital.loss', 
-            'hours.per.week',
-        ]
-        categorical_features = [
-            'workclass',
-            'education',
-            'marital.status',
-            'occupation',
-            'relationship',
-            'race',
-            'sex',
-            'native.country',
-            'income', # target variable
-        ]
-        integer_features = continuous_features
-        ClfTarget = "income"
     
-    elif config["dataset"] == "banknote":
-        data = pd.read_csv('./data/banknote.txt', header=None)
-        data.columns = ["variance", "skewness", "curtosis", "entropy", "class"]
+    elif config["dataset"] == "anuran":
+        data = pd.read_csv('./data/anuran.csv')
         
         assert data.isna().sum().sum() == 0
         
-        continuous_features = [
-            "variance", "skewness", "curtosis", "entropy"
-        ]
-        categorical_features = [
-            'class',
-        ]
-        integer_features = []
-        ClfTarget = "class"
-        
-    elif config["dataset"] == "breast":
-        data = pd.read_csv('./data/wdbc.data', header=None)
-        data = data.drop(columns=[0]) # drop ID number
-        columns = ["Diagnosis"]
-        common_cols = [
-            "radius",
-            "texture",
-            "perimeter",
-            "area",
-            "smoothness",
-            "compactness",
-            "concavity",
-            "concave points",
-            "symmetry",
-            "fractal dimension",
-        ]
-        columns += [f"{x}1" for x in common_cols]
-        columns += [f"{x}2" for x in common_cols]
-        columns += [f"{x}3" for x in common_cols]
-        data.columns = columns
-        
-        assert data.isna().sum().sum() == 0
-        
-        continuous_features = []
-        continuous_features += [f"{x}1" for x in common_cols]
-        continuous_features += [f"{x}2" for x in common_cols]
-        continuous_features += [f"{x}3" for x in common_cols]
-        categorical_features = [
-            "Diagnosis"
-        ]
-        integer_features = []
-        ClfTarget = "Diagnosis"
-        
-    elif config["dataset"] == "concrete":
-        data = pd.read_csv('./data/Concrete_Data.csv')
-        columns = [
-            "Cement",
-            "Blast Furnace Slag",
-            "Fly Ash",
-            "Water",
-            "Superplasticizer",
-            "Coarse Aggregate",
-            "Fine Aggregate",
-            "Age",
-            "Concrete compressive strength"
-        ]
-        data.columns = columns
-        
-        assert data.isna().sum().sum() == 0
-        
-        columns.remove("Age")
-        continuous_features = columns
-        categorical_features = [
-            "Age",
-        ]
-        integer_features = []
-        ClfTarget = "Age"
-        
-    elif config["dataset"] == "kings":
-        data = pd.read_csv('./data/kc_house_data.csv')
-        
-        continuous_features = [
-            'price', 
-            'sqft_living',
-            'sqft_lot',
-            'sqft_above',
-            'sqft_basement',
-            'yr_built',
-            'yr_renovated',
-            'lat',
-            'long',
-            'sqft_living15',
-            'sqft_lot15',
-        ]
-        categorical_features = [
-            'bedrooms',
-            'bathrooms',
-            'floors',
-            'waterfront',
-            'view',
-            'condition',
-            'grade', 
-        ]
-        integer_features = [
-            'price',
-            'sqft_living',
-            'sqft_lot',
-            'sqft_above',
-            'sqft_basement',
-            'yr_built',
-            'yr_renovated',
-            'sqft_living15',
-            'sqft_lot15',
-        ]
-        ClfTarget = "grade"
-        
-    elif config["dataset"] == "loan":
-        data = pd.read_csv('./data/Bank_Personal_Loan_Modelling.csv')
-        
-        continuous_features = [
-            'Age',
-            'Experience',
-            'Income', 
-            'CCAvg',
-            'Mortgage',
-        ]
+        continuous_features = [x for x in data.columns if x.startswith("MFCCs_")]
         categorical_features = [
             'Family',
-            'Personal Loan',
-            'Securities Account',
-            'CD Account',
-            'Online',
-            'CreditCard'
-        ]
-        integer_features = [
-            'Age',
-            'Experience',
-            'Income', 
-            'Mortgage'
-        ]
-        data = data[continuous_features + categorical_features]
-        data = data.dropna()
-        ClfTarget = "Personal Loan"
-    
-    elif config["dataset"] == "letter":
-        data = pd.read_csv('./data/letter-recognition.data', header=None)
-        columns = [
-            "lettr",
-            "x-box",
-            "y-box",
-            "width",
-            "high",
-            "onpix",
-            "x-bar",
-            "y-bar",
-            "x2bar",
-            "y2bar",
-            "xybar",
-            "x2ybr",
-            "xy2br",
-            "x-ege",
-            "xegvy",
-            "y-ege",
-            "yegvx",
-        ]
-        data.columns = columns
-
-        assert data.isna().sum().sum() == 0
-
-        columns.remove("lettr")
-        continuous_features = columns
-        categorical_features = [
-            "lettr"
-        ]
-        integer_features = continuous_features
-        ClfTarget = "lettr"
-        
-    elif config["dataset"] == "redwine":
-        data = pd.read_csv('./data/winequality-red.csv', delimiter=";")
-        columns = list(data.columns)
-        columns.remove("quality")
-        
-        assert data.isna().sum().sum() == 0
-        
-        continuous_features = columns
-        categorical_features = [
-            "quality"
+            'Genus',
+            'Species'
         ]
         integer_features = []
-        ClfTarget = "quality"
+        ClfTarget = "Species"
         
-    elif config["dataset"] == "whitewine":
-        data = pd.read_csv('./data/winequality-white.csv', delimiter=";")
-        columns = list(data.columns)
-        columns.remove("quality")
+    elif config["dataset"] == "shoppers":
+        data = pd.read_csv('./data/shoppers.csv')
         
         assert data.isna().sum().sum() == 0
-        
-        continuous_features = columns
-        categorical_features = [
-            "quality"
-        ]
-        integer_features = []
-        ClfTarget = "quality"
-    
-    elif config["dataset"] == "covtype":
-        data = pd.read_csv('./data/covtype.csv')
-        # data = data.sample(frac=1, random_state=0).reset_index(drop=True)
-        # data = data.dropna(axis=0)
-        # data = data.iloc[:50000]
         
         continuous_features = [
-            'Elevation',
-            'Aspect', 
-            'Slope',
-            'Horizontal_Distance_To_Hydrology', 
-            'Vertical_Distance_To_Hydrology',
-            'Horizontal_Distance_To_Roadways',
-            'Hillshade_9am',
-            'Hillshade_Noon',
-            'Hillshade_3pm',
-            'Horizontal_Distance_To_Fire_Points',
+            'Administrative', 
+            'Administrative_Duration', 
+            'Informational',
+            'Informational_Duration', 
+            'ProductRelated', 
+            'ProductRelated_Duration',
+            'BounceRates', 
+            'ExitRates', 
+            'PageValues', 
         ]
         categorical_features = [
-            'Cover_Type',
+            'SpecialDay', 
+            'Month',
+            'OperatingSystems', 
+            'Browser', 
+            'Region', 
+            'TrafficType', 
+            'VisitorType',
+            'Weekend', 
+            'Revenue'
         ]
+        integer_features = [
+            'Administrative', 
+            'Informational',
+            'ProductRelated', 
+        ]
+        ClfTarget = "Revenue"
+        
+    elif config["dataset"] == "default":
+        data = pd.read_excel('./data/default.xls', header=1)
+        
+        assert data.isna().sum().sum() == 0
+        
+        continuous_features = [
+            'LIMIT_BAL',  
+            'AGE', 
+            'BILL_AMT1', 
+            'BILL_AMT2',
+            'BILL_AMT3',
+            'BILL_AMT4', 
+            'BILL_AMT5', 
+            'BILL_AMT6', 
+            'PAY_AMT1',
+            'PAY_AMT2', 
+            'PAY_AMT3', 
+            'PAY_AMT4', 
+            'PAY_AMT5', 
+            'PAY_AMT6',
+        ]
+        categorical_features = [
+            'SEX', 
+            'EDUCATION', 
+            'MARRIAGE', 
+            'PAY_0',
+            'PAY_2', 
+            'PAY_3', 
+            'PAY_4',
+            'PAY_5', 
+            'PAY_6', 
+            'default payment next month'
+        ]
+        integer_features = [
+            'LIMIT_BAL',  
+            'AGE', 
+        ]
+        ClfTarget = "default payment next month"
+        
+    elif config["dataset"] == "magic":
+        data = pd.read_csv('./data/magic.data', header=None)
+        
+        assert data.isna().sum().sum() == 0
+        
+        continuous_features = [
+            'fLength',
+            'fWidth',
+            'fSize',
+            'fConc',
+            'fConc1',
+            'fAsym',
+            'fM3Long',
+            'fM3Trans',
+            'fAlpha',
+            'fDist',
+        ]
+        categorical_features = [
+            'class'
+        ]
+        integer_features = [
+        ]
+        ClfTarget = "class"
+        
+        data.columns = continuous_features + categorical_features
+        
+    elif config["dataset"] == "madelon":
+        data, _ = loadarff('./data/madelon.arff') # output : data, meta
+        data = pd.DataFrame(data)
+        assert data.isna().sum().sum() == 0
+
+        for column in data.select_dtypes([object]).columns:
+            data[column] = data[column].str.decode('utf-8') # object decoding
+        continuous = [i for i in range(1, 501)]
+        continuous_features = [f"V{x}" for x in continuous]
+        categorical_features = ["Class"]
         integer_features = continuous_features
-        ClfTarget = "Cover_Type"
-    
+        ClfTarget = 'Class'
         
     return data, continuous_features, categorical_features, integer_features, ClfTarget
+#%%

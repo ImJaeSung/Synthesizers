@@ -7,58 +7,13 @@ Reference:
 #%%
 import numpy as np
 
-from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 from scipy.stats import spearmanr
-#%%
-def MLu_reg(train_dataset, test_dataset, syndata):
-    train = train_dataset.raw_data.copy()
-    test = test_dataset.raw_data.copy()
-    syndata = syndata.copy()
-    
-    """Baseline"""
-    print(f"\n(Baseline) Regression: SMAPE...")
-    result = []
-    for col in train_dataset.continuous_features:
-        covariates = [x for x in train.columns if x not in [col]]
-        
-        regr = RandomForestRegressor(random_state=0, n_jobs=-1)
-        regr.fit(train[covariates], train[col])
-        pred = regr.predict(test[covariates])
-        true = np.array(test[col])
-        
-        smape = np.abs(true - pred)
-        smape /= (np.abs(true) + np.abs(pred)) + 1e-6 # numerical stability
-        smape = smape.mean()
-        
-        result.append((col, smape))
-        print("[{}] SMAPE: {:.3f}".format(col, smape))
-    base_reg = np.mean([x[1] for x in result])
-    
-    """Synthetic"""
-    print(f"\n(Synthetic) Regression: SMAPE...")
-    result = []
-    for col in train_dataset.continuous_features:
-        covariates = [x for x in syndata.columns if x not in [col]]
-        
-        regr = RandomForestRegressor(random_state=0, n_jobs=-1)
-        regr.fit(syndata[covariates], syndata[col])
-        pred = regr.predict(test[covariates])
-        true = np.array(test[col])
-        
-        smape = np.abs(true - pred)
-        smape /= (np.abs(true) + np.abs(pred)) + 1e-6 # numerical stability
-        smape = smape.mean()
-        
-        result.append((col, smape))
-        print("[{}] SMAPE: {:.3f}".format(col, smape))
-    syn_reg = np.mean([x[1] for x in result])
-    
-    return base_reg, syn_reg
 #%%
 def MLu_cls(train_dataset, test_dataset, syndata):
     continuous = train_dataset.continuous_features
@@ -69,7 +24,7 @@ def MLu_cls(train_dataset, test_dataset, syndata):
     syndata_ = syndata.copy()
     
     mean = train_[continuous].mean()
-    std = train_[continuous].std()
+    std = train_[continuous].std() + 1e-6
     train_[continuous] -= mean
     train_[continuous] /= std
     test_[continuous] -= mean
@@ -81,21 +36,21 @@ def MLu_cls(train_dataset, test_dataset, syndata):
 
     """Baseline"""
     performance = []
-    print(f"\n(Baseline) Classification: F1...")
+    print(f"\n(Baseline) Classification: Accuracy...")
     for name, clf in [
-        ('logit', LogisticRegression(random_state=0, n_jobs=-1, max_iter=1000)),
+        ('logit', LogisticRegression(random_state=42, n_jobs=-1, max_iter=1000)),
         ('GaussNB', GaussianNB()),
         ('KNN', KNeighborsClassifier(n_jobs=-1)),
-        ('tree', DecisionTreeClassifier(random_state=0)),
-        ('RF', RandomForestClassifier(random_state=0)),
+        ('SVM', SVC(random_state=42)),
+        ('RF', RandomForestClassifier(random_state=42)),
     ]:
         clf.fit(train_[covariates], train_[target])
         pred = clf.predict(test_[covariates])
-        f1 = f1_score(test_[target], pred, average='micro')
+        acc = accuracy_score(test_[target], pred)
         if name == "RF":
             feature = [(x, y) for x, y in zip(covariates, clf.feature_importances_)]
-        print(f"[{name}] F1: {f1:.3f}")
-        performance.append((name, f1))
+        print(f"[{name}] ACC: {acc:.3f}")
+        performance.append((name, acc))
 
     base_performance = performance
     base_cls = np.mean([x[1] for x in performance])
@@ -108,21 +63,21 @@ def MLu_cls(train_dataset, test_dataset, syndata):
         )
     else:
         performance = []
-        print(f"\n(Synthetic) Classification: F1...")
+        print(f"\n(Synthetic) Classification: Accuracy...")
         for name, clf in [
-            ('logit', LogisticRegression(random_state=0, n_jobs=-1, max_iter=1000)),
+            ('logit', LogisticRegression(random_state=42, n_jobs=-1, max_iter=1000)),
             ('GaussNB', GaussianNB()),
             ('KNN', KNeighborsClassifier(n_jobs=-1)),
-            ('tree', DecisionTreeClassifier(random_state=0)),
-            ('RF', RandomForestClassifier(random_state=0)),
+            ('SVM', SVC(random_state=42)),
+            ('RF', RandomForestClassifier(random_state=42)),
         ]:
             clf.fit(syndata_[covariates], syndata_[target])
             pred = clf.predict(test_[covariates])
-            f1 = f1_score(test_[target], pred, average='micro')
+            acc = accuracy_score(test_[target], pred)
             if name == "RF":
                 feature = [(x, y) for x, y in zip(covariates, clf.feature_importances_)]
-            print(f"[{name}] F1: {f1:.3f}")
-            performance.append((name, f1))
+            print(f"[{name}] ACC: {acc:.3f}")
+            performance.append((name, acc))
                 
         syn_cls = np.mean([x[1] for x in performance])
         model_selection = spearmanr(

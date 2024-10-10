@@ -12,7 +12,7 @@ from modules.utils import get_model
 
 import modules
 from evaluation.evaluation import evaluate
-from evaluation.utility import set_random_seed
+from evaluation.utils import set_random_seed
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -28,7 +28,7 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding='utf-8')
     import wandb
 
-project = "ddpm_10000" # put your WANDB project name
+project = "tabddpm" # put your WANDB project name
 # entity = "wotjd1410" # put your WANDB username
 
 run = wandb.init(
@@ -52,12 +52,21 @@ def get_args(debug):
     
     parser.add_argument('--ver', type=int, default=0, 
                         help='model version number')
-    parser.add_argument('--dataset', type=str, default='whitewine', 
+    parser.add_argument('--dataset', type=str, default='anuran', 
                         help="""
-                        Dataset options: 
-                        abalone, banknote, breast, concrete, letter 
-                        kings, loan, covertype, redwine, whitewine
+                        Tabular dataset options: 
+                        breast, banknote, default, whitewine, bankruptcy, BAF
                         """)
+    
+    parser.add_argument("--lr", type=float, default=0.002, 
+                        help="Learning rate")
+    parser.add_argument("--num_timesteps", type=int, default=1000, 
+                        help="Number of timesteps")
+    parser.add_argument("--num_layers", type=int, default=4, 
+                        help="the number of mlp layers for TabDDPM")
+    parser.add_argument("--dim_embed", type=int, default=1024, 
+                        help="embedding dimension of TabDDPM")
+
     if debug:
         return parser.parse_args(args=[])
     else:    
@@ -68,7 +77,7 @@ def main():
     config = vars(get_args(debug=False)) # default configuration
     #%%
     """model load"""
-    base_name = f"TabDDPM_{config['dataset']}"
+    base_name = f"TabDDPM_{config['dataset']}_{config['lr']}_{config['num_layers']}_{config['dim_embed']}_{config['num_timesteps']}"
     model_name = f"{base_name}"
     artifact = wandb.use_artifact(
         f"{project}/{model_name}:v{config['ver']}",
@@ -95,17 +104,8 @@ def main():
     test_dataset = CustomDataset(
         config,
         train=False,
-        cont_scalers=train_dataset.cont_scalers,
-        disc_scalers=train_dataset.disc_scalers
+        cont_scalers=train_dataset.cont_scalers
     )
-    #%%\
-    K = np.array(train_dataset.EncodedInfo.num_categories)
-    num_numerical_features = train_dataset.EncodedInfo.num_continuous_features
-    d_in = np.sum(K) + num_numerical_features
-    
-    config['is_y_cond'] = True
-    config['num_classes'] = train_dataset.num_classes
-    config['d_in'] = d_in.astype(int)
     #%%
     """model"""
     model = get_model(config)
@@ -145,7 +145,7 @@ def main():
         num_samples=n, 
         train_dataset=train_dataset,
         ddim=False)
-    
+    # syndata.to_csv(f"{config['dataset']}_syndata.csv", index=False)
     #%%
     results = evaluate(syndata, train_dataset, test_dataset, config, device)
     results = results._asdict()

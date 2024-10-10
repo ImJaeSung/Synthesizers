@@ -74,7 +74,7 @@ class GaussianMultinomialDiffusion(nn.Module):
         config,
         device
         ):
-    
+
         super(GaussianMultinomialDiffusion, self).__init__()
         assert config["multinomial_loss_type"] in ('vb_stochastic', 'vb_all')
         assert config["parametrization"] in ('x0', 'direct')
@@ -100,7 +100,6 @@ class GaussianMultinomialDiffusion(nn.Module):
         #     self.slices_for_classes.append(np.arange(offsets[i - 1], offsets[i]))
         # self.offsets = torch.from_numpy(np.append([0], offsets)).to(device)
 
-                
         if len(self.num_classes) > 0:
             self.num_classes_expanded = torch.from_numpy(
                 np.concatenate(
@@ -989,9 +988,7 @@ class GaussianMultinomialDiffusion(nn.Module):
         sample = torch.cat([z_norm, z_cat], dim=1).cpu()
         return sample, out_dict
     #%%    
-    def generate_synthetic_data(
-            self, num_samples, train_dataset, ddim=False
-        ):
+    def generate_synthetic_data(self, num_samples, train_dataset, ddim=False):
         if ddim:
             print('Sample using DDIM.')
             sample_fn = self.sample_ddim

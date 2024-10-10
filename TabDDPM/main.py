@@ -15,7 +15,7 @@ import torch.optim as optim
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.utils import get_model
-from evaluation.simulation import set_random_seed
+from evaluation.utils import set_random_seed
 # %%
 import subprocess
 try:
@@ -27,7 +27,7 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding="utf-8")
     import wandb
 
-project = "ddpm_10000" # put your WANDB project name
+project = "TabDDPM" # put your WANDB project name
 # entity = "wotjd1410" # put your WANDB username
 
 run = wandb.init(
@@ -47,16 +47,15 @@ def get_args(debug):
 
     parser.add_argument("--seed", type=int, default=0, 
                         help="seed for repeatable results")
-    parser.add_argument('--dataset', type=str, default='whitewine', 
+    parser.add_argument('--dataset', type=str, default='default', 
                         help="""
-                        Dataset options: 
-                        abalone, banknote, breast, concrete, letter
-                        kings, loan, covertype, redwine, whitewine
+                        Tabular dataset options: 
+                        breast, banknote, default, whitewine, bankruptcy, BAF
                         """)
     parser.add_argument("--test_size", default=0.2, type=float,
                         help="the ratio of train test split")
       
-    parser.add_argument('--epochs', default=500, type=int,
+    parser.add_argument('--epochs', default=10000, type=int,
                         help='Number epochs to train TabDDPM.')
     parser.add_argument("--lr", type=float, default=0.002, 
                         help="Learning rate")
@@ -81,10 +80,12 @@ def get_args(debug):
                         default='vb_stochastic', help="Multinomial loss type")
     parser.add_argument("--parametrization", type=str, default='x0', 
                         help="Parametrization")
-
-    parser.add_argument("--embedding_dim", type=list, default=[1024, 512, 512, 256], 
-                        help="embedding dimension of TabDDPM")
     
+    parser.add_argument("--num_layers", type=int, default=4, 
+                        help="the number of mlp layers for TabDDPM")
+    parser.add_argument("--dim_embed", type=int, default=1024, 
+                        help="embedding dimension of TabDDPM")
+
     parser.add_argument("--dropout", type=list, default=0.0, 
                         help="dropout of TabDDPM")
 
@@ -128,7 +129,11 @@ def main():
     config['is_y_cond'] = True
     config['num_classes'] = train_dataset.num_classes
     config['d_in'] = d_in.astype(int)
-    #%%
+    if config['num_layers'] == 2:
+        config['embedding_dim'] = [config["dim_embed"], config["dim_embed"]]
+    elif config['num_layers'] == 4:
+        config['embedding_dim'] = [config["dim_embed"], 2*config["dim_embed"], 2*config["dim_embed"], config["dim_embed"]]
+        #%%
     """model"""
     model = get_model(config)
     model.to(device)
@@ -164,11 +169,12 @@ def main():
         config,
         device=device
     )
+    diffusion.num_classes
     #%%
     trainer.run_loop()
     #%%
     """model save"""
-    base_name = f"TabDDPM_{config['dataset']}"
+    base_name = f"TabDDPM_{config['dataset']}_{config['lr']}_{config['num_layers']}_{config['dim_embed']}_{config['num_timesteps']}"
     model_dir = f"./assets/models/{base_name}/"
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)

@@ -14,7 +14,7 @@ from scipy.stats import entropy, ks_2samp
 from sklearn import metrics
 from sklearn.preprocessing import StandardScaler
 
-from evaluation import utility
+from evaluation import utils
 #%%
 def KLDivergence(train_dataset, syndata):
     """
@@ -26,7 +26,7 @@ def KLDivergence(train_dataset, syndata):
     num_bins = 10
     
     # get distribution of continuous variables
-    cont_freqs = utility.get_frequency(
+    cont_freqs = utils.get_frequency(
         train[train_dataset.continuous_features], 
         syndata[train_dataset.continuous_features], 
         n_histogram_bins=num_bins
@@ -83,7 +83,7 @@ def GoodnessOfFit(train_dataset, syndata):
         result.append(statistic)
     return np.mean(result)
 #%%
-def MaximumMeanDiscrepancy(train_dataset, syndata, large=False):
+def MaximumMeanDiscrepancy(train_dataset, syndata):
     """
     Joint statistical fidelity: Maximum Mean Discrepancy (MMD)
     : lower is better
@@ -95,10 +95,6 @@ def MaximumMeanDiscrepancy(train_dataset, syndata, large=False):
     # only continuous
     train = train[train_dataset.continuous_features]
     syndata = syndata[train_dataset.continuous_features]
-    
-    if large:
-        train = train.sample(frac=0.05, random_state=0)
-        syndata = syndata.sample(frac=0.05, random_state=0)
     
     scaler = StandardScaler().fit(train)
     train_ = scaler.transform(train)
@@ -119,7 +115,7 @@ def MaximumMeanDiscrepancy(train_dataset, syndata, large=False):
     MMD = XX.mean() + YY.mean() - 2 * XY.mean()
     return MMD
 #%%
-def WassersteinDistance(train_dataset, syndata, large=False):
+def WassersteinDistance(train_dataset, syndata, device):
     """
     Joint statistical fidelity: Wasserstein Distance
     : lower is better
@@ -130,27 +126,19 @@ def WassersteinDistance(train_dataset, syndata, large=False):
     train = train[train_dataset.continuous_features]
     syndata = syndata[train_dataset.continuous_features]
     
-    if large:
-        train = train.sample(frac=0.05, random_state=0)
-        syndata = syndata.sample(frac=0.05, random_state=0)
-    
     train_ = train.values.reshape(len(train), -1)
     syndata_ = syndata.values.reshape(len(syndata), -1)
     
     # assert len(train_) == len(syndata_)
 
     scaler = StandardScaler().fit(train_)
-    train_ = scaler.transform(train_).astype(np.float32)
-    syndata_ = scaler.transform(syndata_).astype(np.float32)
+    train_ = scaler.transform(train_)
+    syndata_ = scaler.transform(syndata_)
     
-    train_ = torch.from_numpy(train_)
-    syndata_ = torch.from_numpy(syndata_)
-
+    train_ = torch.from_numpy(train_).to(device)
+    syndata_ = torch.from_numpy(syndata_).to(device)
+    
     OT_solver = SamplesLoss(loss="sinkhorn")
-    """
-    Compute WD for 4000 samples and average due to the following error:
-    "NameError: name 'generic_logsumexp' is not defined"
-    """
     if len(train_) > 4000:
         WD = []
         iter_ = len(train_) // 4000 + 1
@@ -161,12 +149,42 @@ def WassersteinDistance(train_dataset, syndata, large=False):
     else:
         WD = OT_solver(train_, syndata_).cpu().numpy().item()
     return WD
-
 #%%
 def phi(s, D):
     return (1 + (4 * s) / (2 * D - 3)) ** (-1 / 2)
 
-def CramerWoldDistance(train_dataset, syndata, config, device, large=False):
+# def CramerWoldDistance(train_dataset, syndata, config, device):
+#     """
+#     Joint statistical fidelity: Cramer-Wold Distance
+#     : lower is better
+#     """
+    
+#     train = train_dataset.raw_data
+#     # only continuous
+#     train = train[train_dataset.continuous_features]
+#     syndata = syndata[train_dataset.continuous_features]
+#     if config["dataset"] == "adult": ### OOM
+#         train = train.sample(frac=0.5, random_state=42)
+#         syndata = syndata.sample(frac=0.5, random_state=42)
+    
+#     scaler = StandardScaler().fit(train)
+#     train_ = scaler.transform(train)
+#     syndata_ = scaler.transform(syndata)
+#     train_ = torch.from_numpy(train_).to(device)
+#     syndata_ = torch.from_numpy(syndata_).to(device)
+    
+#     gamma_ = (4 / (3 * train_.size(0))) ** (2 / 5)
+    
+#     cw1 = torch.cdist(train_, train_) ** 2 
+#     cw2 = torch.cdist(syndata_, syndata_) ** 2 
+#     cw3 = torch.cdist(train_, syndata_) ** 2 
+#     cw = phi(cw1 / (4 * gamma_), D=train_.size(1)).sum()
+#     cw += phi(cw2 / (4 * gamma_), D=train_.size(1)).sum()
+#     cw += -2 * phi(cw3 / (4 * gamma_), D=train_.size(1)).sum()
+#     cw /= (2 * train_.size(0) ** 2 * torch.tensor(torch.pi * gamma_).sqrt())
+#     return cw.cpu().numpy().item()
+#%%
+def CramerWoldDistance(train_dataset, syndata, config, device):
     """
     Joint statistical fidelity: Cramer-Wold Distance
     : lower is better
@@ -176,28 +194,41 @@ def CramerWoldDistance(train_dataset, syndata, config, device, large=False):
     # only continuous
     train = train[train_dataset.continuous_features]
     syndata = syndata[train_dataset.continuous_features]
-    if config["dataset"] == "adult": ### OOM
-        train = train.sample(frac=0.5, random_state=42)
-        syndata = syndata.sample(frac=0.5, random_state=42)
     
-    if large:
-        train = train.sample(frac=0.05, random_state=0)
-        syndata = syndata.sample(frac=0.05, random_state=0)
-
     scaler = StandardScaler().fit(train)
     train_ = scaler.transform(train)
     syndata_ = scaler.transform(syndata)
     train_ = torch.from_numpy(train_).to(device)
     syndata_ = torch.from_numpy(syndata_).to(device)
     
-    gamma_ = (4 / (3 * train_.size(0))) ** (2 / 5)
-    
-    cw1 = torch.cdist(train_, train_) ** 2 
-    cw2 = torch.cdist(syndata_, syndata_) ** 2 
-    cw3 = torch.cdist(train_, syndata_) ** 2 
-    cw = phi(cw1 / (4 * gamma_), D=train_.size(1)).sum()
-    cw += phi(cw2 / (4 * gamma_), D=train_.size(1)).sum()
-    cw += -2 * phi(cw3 / (4 * gamma_), D=train_.size(1)).sum()
-    cw /= (2 * train_.size(0) ** 2 * torch.tensor(torch.pi * gamma_).sqrt())
-    return cw.cpu().numpy().item()
-#%%
+    if len(train_) > 10000:
+        CWs = []
+        for _ in tqdm(range(10), desc="Batch CW..."):
+            idx = np.random.choice(range(len(train_)), 5000, replace=False)
+            
+            train_small = train_[idx, :]
+            syndata_small = syndata_[idx, :]
+            gamma_ = (4 / (3 * train_small.size(0))) ** (2 / 5)
+            
+            cw1 = torch.cdist(train_small, train_small) ** 2 
+            cw2 = torch.cdist(syndata_small, syndata_small) ** 2 
+            cw3 = torch.cdist(train_small, syndata_small) ** 2 
+            cw = phi(cw1 / (4 * gamma_), D=train_small.size(1)).sum()
+            cw += phi(cw2 / (4 * gamma_), D=train_small.size(1)).sum()
+            cw += -2 * phi(cw3 / (4 * gamma_), D=train_small.size(1)).sum()
+            cw /= (2 * train_small.size(0) ** 2 * torch.tensor(torch.pi * gamma_).sqrt())
+            
+            CWs.append(cw.cpu().numpy().item())
+        cw = np.mean(CWs)
+    else:
+        gamma_ = (4 / (3 * train_.size(0))) ** (2 / 5)
+        
+        cw1 = torch.cdist(train_, train_) ** 2 
+        cw2 = torch.cdist(syndata_, syndata_) ** 2 
+        cw3 = torch.cdist(train_, syndata_) ** 2 
+        cw = phi(cw1 / (4 * gamma_), D=train_.size(1)).sum()
+        cw += phi(cw2 / (4 * gamma_), D=train_.size(1)).sum()
+        cw += -2 * phi(cw3 / (4 * gamma_), D=train_.size(1)).sum()
+        cw /= (2 * train_.size(0) ** 2 * torch.tensor(torch.pi * gamma_).sqrt())
+        cw = cw.cpu().numpy().item()
+    return cw
