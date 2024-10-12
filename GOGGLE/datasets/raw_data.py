@@ -51,8 +51,7 @@ def load_raw_data(config):
             "Net Income Flag"
         ]
         ClfTarget = "Bankrupt?"
-
-        
+     
     elif config["dataset"] == "default":
         data = pd.read_excel('./data/default.xls', header=1)
         
