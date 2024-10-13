@@ -1,6 +1,7 @@
 """Reference:
 [1] https://github.com/tennisonliu/GOGGLE/blob/main/src/goggle/model/Encoder.py
 [2] https://github.com/tennisonliu/GOGGLE/blob/main/src/goggle/model/GraphDecoder.py
+[3] https://github.com/vanderschaarlab/synthcity/blob/main/src/synthcity/plugins/core/schema.py
 """
 #%%
 import pandas as pd
@@ -232,7 +233,14 @@ class Goggle(nn.Module):
         
         """post-process integer columns (calibration)"""
         data[train_dataset.integer_features] = data[train_dataset.integer_features].round(0).astype(int)
-        data[train_dataset.categorical_features] = data[train_dataset.categorical_features].astype(int)
         
+        """post-process categorical columns (similar to Reference [3])"""
+        for i, categorical_feature in enumerate(train_dataset.categorical_features):
+            num_category = train_dataset.num_categories[i]
+            categories = [x for x in range(num_category)]
+            
+            data[categorical_feature] = data[categorical_feature].apply(
+                lambda x : min(categories, key=lambda z: abs(z-x))
+            )
         return data
 # %%

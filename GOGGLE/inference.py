@@ -1,6 +1,5 @@
 #%%
 import os
-#%%
 import argparse
 import importlib
 #%%
@@ -8,7 +7,6 @@ import torch
 from torch.utils.data import DataLoader
 #%%
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from modules.utils import set_random_seed
 from evaluation.evaluation import evaluate
 #%%
@@ -56,7 +54,7 @@ def get_args(debug):
                         help="Learning rate")
     parser.add_argument('--alpha', default=0.1, type=float, 
                         help='Alpha value for GoggleLoss (KL divergence)')
-    parser.add_argument('--beta', default=0.1, type=float, 
+    parser.add_argument('--beta', default=1, type=float, 
                         help='Beta value for GoggleLoss (Graph sparsity)')
     
     if debug:
@@ -66,7 +64,7 @@ def get_args(debug):
 #%%
 def main():
     #%%
-    config = vars(get_args(debug=False)) # default configuration
+    config = vars(get_args(debug=True)) # default configuration
     
     """model load"""
     base_name = f"{config['dataset']}_{config['lr']}_{config['batch_size']}_{config['alpha']}_{config['beta']}"

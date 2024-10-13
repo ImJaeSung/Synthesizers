@@ -45,6 +45,7 @@ class CustomDataset(Dataset):
         # encoding for categorical variables.
         data[self.categorical_features] = data[self.categorical_features].apply(
             lambda col: col.astype('category').cat.codes)
+        self.num_categories = data[categorical_features].nunique(axis=0).to_list()
         
         # Data split
         train_data, test_data = train_test_split(
