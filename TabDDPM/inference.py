@@ -28,7 +28,7 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding='utf-8')
     import wandb
 
-project = "tabddpm" # put your WANDB project name
+project = "TabDDPM" # put your WANDB project name
 # entity = "wotjd1410" # put your WANDB username
 
 run = wandb.init(
@@ -52,19 +52,19 @@ def get_args(debug):
     
     parser.add_argument('--ver', type=int, default=0, 
                         help='model version number')
-    parser.add_argument('--dataset', type=str, default='anuran', 
+    parser.add_argument('--dataset', type=str, default='breast', 
                         help="""
                         Tabular dataset options: 
                         breast, banknote, default, whitewine, bankruptcy, BAF
                         """)
     
-    parser.add_argument("--lr", type=float, default=0.002, 
+    parser.add_argument("--lr", type=float, default=0.0002, 
                         help="Learning rate")
     parser.add_argument("--num_timesteps", type=int, default=1000, 
                         help="Number of timesteps")
     parser.add_argument("--num_layers", type=int, default=4, 
                         help="the number of mlp layers for TabDDPM")
-    parser.add_argument("--dim_embed", type=int, default=1024, 
+    parser.add_argument("--dim_embed", type=int, default=256, 
                         help="embedding dimension of TabDDPM")
 
     if debug:

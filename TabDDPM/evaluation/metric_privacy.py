@@ -166,11 +166,19 @@ def attribute_disclosure(K, compromised, syndata, attr_compromised, dataset):
     votes = np.vstack(votes)
     trues = np.vstack(trues)
     
-    acc = 0
-    for j in range(trues.shape[1]):
-        acc += (trues[:, j] == votes[:, j]).mean()
-    acc /= trues.shape[1]
-    return acc
+    # acc = 0
+    # for j in range(trues.shape[1]):
+    #     acc += (trues[:, j] == votes[:, j]).mean()
+    # acc /= trues.shape[1]
+    # return acc
+    if trues.shape[1] > 0:  # 추가된 조건문
+        acc = 0
+        for j in range(trues.shape[1]):
+            acc += (trues[:, j] == votes[:, j]).mean()
+        acc /= trues.shape[1]
+        return acc
+    else:
+        return 0 
 
 def AttributeDisclosure(train_dataset, syndata):
     """
