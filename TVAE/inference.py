@@ -124,14 +124,21 @@ def main():
     n = len(train_dataset.raw_data) 
     syndata = model.generate_synthetic_data(n, train_dataset)
     # %%
-    """evaluation"""
-    results = evaluate(syndata, train_dataset, test_dataset, config, device)
+    """load Synthetic-Eval"""
+    from synthetic_eval import evaluation
+    results = evaluation.evaluate(
+        syndata, 
+        train_dataset.raw_data, 
+        test_dataset.raw_data, 
+        train_dataset.ClfTarget, 
+        train_dataset.EncodedInfo.continuous_features, 
+        train_dataset.EncodedInfo.categorical_features, 
+        device
+    )
+    """print results"""
     for x, y in results._asdict().items():
         print(f"{x}: {y:.3f}")
         wandb.log({f"{x}": y})
-    
-    # print("Marginal Distribution...")
-    # figs = utility.marginal_plot(train_dataset.raw_data, syndata, config, model_name)
     #%%
     wandb.config.update(config, allow_val_change=True)
     wandb.run.finish()
