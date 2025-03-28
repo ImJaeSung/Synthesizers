@@ -99,15 +99,15 @@ def get_args(debug):
 
     parser.add_argument(
         "--generator_dim",
-        type=str,
-        default="256, 256",
+        type=int,
+        default=256,
         help="Dimension of each generator layer. "
         "Comma separated integers with no whitespaces.",
     )
     parser.add_argument(
         "--discriminator_dim",
-        type=str,
-        default="256, 256",
+        type=int,
+        default=256,
         help="Dimension of each discriminator layer. "
         "Comma separated integers with no whitespaces.",
     )
@@ -175,8 +175,8 @@ def main():
     model_module = importlib.import_module('modules.model')
     importlib.reload(model_module)
 
-    generator_dim = [int(x) for x in config["generator_dim"].split(",")]
-    discriminator_dim = [int(x) for x in config["discriminator_dim"].split(",")]
+    generator_dim = [config["generator_dim"] for _ in range(2)]
+    discriminator_dim = [config["discriminator_dim"] for _ in range(2)]
 
     generator = model_module.Generator(
         config["latent_dim"] + data_sampler.dim_cond_vec(),
@@ -238,7 +238,7 @@ def main():
         device=device)
     # %%
     """model save"""
-    base_name = f"{config['model']}_{config['latent_dim']}_{config['batch_size']}_{config['epochs']}_{config['discriminator_steps']}_{config['dataset']}"
+    base_name = f"{config['model']}_{config['latent_dim']}_{config['batch_size']}_{config['epochs']}_{config['generator_dim']}_{config['discriminator_dim']}_{config['dataset']}"
     model_dir = f"./assets/models/{base_name}/"
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
