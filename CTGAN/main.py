@@ -1,13 +1,14 @@
-# %%
 """
 Reference:
 [1] https://github.com/sdv-dev/CTGAN/blob/master/ctgan/synthesizers/ctgan.py
 """
 # %%
 import os
-import importlib
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import importlib
+import argparse
+import ast
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # %%
 import numpy as np
 from PIL import Image
@@ -17,7 +18,7 @@ import torch
 from torch.utils.data import DataLoader
 
 from modules.data_sampler import *
-from evaluation.simulation import set_random_seed
+from modules.utils import set_random_seed
 from modules.model import validate_discrete_columns
 # %%
 import subprocess
@@ -30,17 +31,16 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding="utf-8")
     import wandb
 
-project = "distvae_journal_baseline1" # put your WANDB project name
-entity = "anseunghwan" # put your WANDB username
+project = "2stage_baseline" # put your WANDB project name
+# entity = "" # put your WANDB username
 
 run = wandb.init(
     project=project, 
-    entity=entity, 
-    # tags=[""], # put tags of this python project
+    # entity=entity, 
+    tags=["train"], # put tags of this python project
 )
 # %%
-import argparse
-import ast
+
 
 def arg_as_list(s):
     v = ast.literal_eval(s)
@@ -55,7 +55,7 @@ def get_args(debug):
     parser.add_argument('--seed', type=int, default=0, 
                         help='seed for repeatable results')
     parser.add_argument("--model", type=str, default="CTGAN")
-    parser.add_argument('--dataset', type=str, default='banknote', 
+    parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         [Tabular dataset options]
                         imbalanced: whitewine, bankruptcy, BAF
@@ -168,7 +168,9 @@ def main():
     # %%
     """training-by-sampling"""
     data_sampler = DataSampler(
-        train_dataset.data, train_dataset.EncodedInfo.transformer.output_info_list, config["log_frequency"]
+        train_dataset.data, 
+        train_dataset.EncodedInfo.transformer.output_info_list, 
+        config["log_frequency"]
     )
     config["data_dim"] = train_dataset.EncodedInfo.transformer.output_dimensions
     # %%
@@ -225,30 +227,19 @@ def main():
     """training"""
     train_module = importlib.import_module('modules.train')
     importlib.reload(train_module)
-    
-    for epoch in range(config["epochs"]):
-        logs = train_module.train(
-            generator,
-            discriminator,
-            optimizerG,
-            optimizerD,
-            train_dataset.data,
-            data_sampler,
-            train_dataset.EncodedInfo.transformer,
-            config,
-            mean,
-            std,
-            device,
-        )
+    train_module.train_function(
+        generator=generator,
+        discriminator=discriminator,
+        optimizerG=optimizerG,
+        optimizerD=optimizerD,
+        train_data=train_dataset.data,
+        data_sampler=data_sampler,
+        transformer=train_dataset.EncodedInfo.transformer,
+        config=config,
+        mean=mean,
+        std=std,
+        device=device)
 
-        print_input = "[epoch {:03d}]".format(epoch + 1)
-        print_input += "".join(
-            [", {}: {:.4f}".format(x, np.mean(y)) for x, y in logs.items()]
-        )
-        print(print_input)
-
-        """update log"""
-        wandb.log({x: np.mean(y) for x, y in logs.items()})
     # %%
     """model save"""
     base_name = f"{config['model']}_{config['latent_dim']}_{config['dataset']}"

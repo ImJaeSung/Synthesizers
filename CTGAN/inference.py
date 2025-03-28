@@ -1,19 +1,19 @@
 # %%
 import os
+import sys
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import io
 import argparse
 import importlib
 
 import torch
 
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from evaluation.simulation import set_random_seed
-from evaluation.evaluation import evaluate
-from evaluation import utility
-
+from modules.utils import set_random_seed
 from modules.model import validate_discrete_columns, apply_activate
 from modules.data_sampler import DataSampler
+
+from synthetic_eval import evaluation
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -29,13 +29,13 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding='utf-8')
     import wandb
 
-project = "distvae_journal_baseline1" # put your WANDB project name
-entity = "anseunghwan" # put your WANDB username
+project = "2stage_baseline" # put your WANDB project name
+# entity = "" # put your WANDB username
 
 run = wandb.init(
     project=project, 
-    entity=entity, 
-    tags=["inference_thesis"], # put tags of this python project
+    # entity=entity, 
+    tags=["inference"], # put tags of this python project
 )
 # %%
 def get_args(debug):
@@ -44,7 +44,7 @@ def get_args(debug):
     parser.add_argument('--ver', type=int, default=0, 
                         help='model version number')
     parser.add_argument("--model", type=str, default="CTGAN")
-    parser.add_argument('--dataset', type=str, default='banknote', 
+    parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         [Tabular dataset options]
                         imbalanced: whitewine, bankruptcy, BAF
@@ -64,7 +64,6 @@ def get_args(debug):
 def main():
     # %%
     config = vars(get_args(debug=False))  # default configuration
-
     """model load"""
     model_name = f"{config['model']}_{config['latent_dim']}_{config['dataset']}"
     artifact = wandb.use_artifact(
@@ -97,7 +96,9 @@ def main():
     # %%
     """training-by-sampling"""
     data_sampler = DataSampler(
-        train_dataset.data, train_dataset.EncodedInfo.transformer.output_info_list, config["log_frequency"]
+        train_dataset.data, 
+        train_dataset.EncodedInfo.transformer.output_info_list, 
+        config["log_frequency"]
     )
     config["data_dim"] = train_dataset.EncodedInfo.transformer.output_dimensions
     # %%
@@ -138,7 +139,15 @@ def main():
     syndata = model.generate_synthetic_data(n, train_dataset, data_sampler, config, device)
     #%%
     """evaluation"""
-    results = evaluate(syndata, train_dataset, test_dataset, config, device)
+    results = evaluation.evaluate(
+        syndata, 
+        train_dataset.raw_data,
+        test_dataset.raw_data, 
+        train_dataset.ClfTarget, 
+        train_dataset.continuous_features, 
+        train_dataset.categorical_features, 
+        device)
+
     for x, y in results._asdict().items():
         print(f"{x}: {y:.3f}")
         wandb.log({f"{x}": y})

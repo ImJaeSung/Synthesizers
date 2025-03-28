@@ -5,6 +5,7 @@ Reference:
 """
 # %%
 import warnings
+from tqdm import tqdm
 
 import numpy as np
 import pandas as pd
@@ -146,7 +147,7 @@ class Generator(Module):
     def generate_synthetic_data(self, n, train_dataset, data_sampler, config, device):
         steps = n // config["batch_size"] + 1
         data = []
-        for _ in range(steps):
+        for _ in tqdm(range(steps), desc="generate synthetic data..."):
             mean = torch.zeros(config["batch_size"], config["latent_dim"])
             std = mean + 1
             fakez = torch.normal(mean=mean, std=std).to(device)

@@ -2,8 +2,8 @@
 import pandas as pd
 from scipy.io.arff import loadarff 
 #%%
-def load_raw_data(config):
-    if config["dataset"] == "banknote":
+def load_raw_data(dataset):
+    if dataset == "banknote":
         data = pd.read_csv('./data/banknote.txt', header=None)
         data.columns = ["variance", "skewness", "curtosis", "entropy", "class"]
         assert data.isna().sum().sum() == 0
@@ -13,7 +13,7 @@ def load_raw_data(config):
         integer_features = []
         ClfTarget = "class"
         
-    elif config["dataset"] == "whitewine":
+    elif dataset == "whitewine":
         data = pd.read_csv('./data/whitewine.csv', delimiter=";")
         columns = list(data.columns)
         columns.remove("quality")
@@ -24,7 +24,7 @@ def load_raw_data(config):
         integer_features = []
         ClfTarget = "quality"
     
-    elif config["dataset"] == "breast":
+    elif dataset == "breast":
         data = pd.read_csv('./data/breast.csv')
         data = data.drop(columns=['id']) # drop ID number
         assert data.isna().sum().sum() == 0
@@ -34,7 +34,7 @@ def load_raw_data(config):
         integer_features = []
         ClfTarget = "diagnosis"
         
-    elif config["dataset"] == "bankruptcy":
+    elif dataset == "bankruptcy":
         data = pd.read_csv('./data/bankruptcy.csv')
         data.columns = [x.strip() for x in data.columns]
         assert data.isna().sum().sum() == 0
@@ -52,7 +52,7 @@ def load_raw_data(config):
         ]
         ClfTarget = "Bankrupt?"
      
-    elif config["dataset"] == "default":
+    elif dataset == "default":
         data = pd.read_excel('./data/default.xls', header=1)
         
         assert data.isna().sum().sum() == 0
@@ -91,7 +91,7 @@ def load_raw_data(config):
         ]
         ClfTarget = "default payment next month"
     
-    elif config["dataset"] == "BAF":
+    elif dataset == "BAF":
         # https://www.kaggle.com/datasets/sgpjesus/bank-account-fraud-dataset-neurips-2022/data
         data = pd.read_csv('./data/BAF.csv')
         
