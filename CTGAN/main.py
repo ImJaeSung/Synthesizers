@@ -236,10 +236,9 @@ def main():
         mean=mean,
         std=std,
         device=device)
-
     # %%
     """model save"""
-    base_name = f"{config['model']}_{config['latent_dim']}_{config['dataset']}"
+    base_name = f"{config['model']}_{config['latent_dim']}_{config['batch_size']}_{config['epochs']}_{config['discriminator_steps']}_{config['dataset']}"
     model_dir = f"./assets/models/{base_name}/"
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)

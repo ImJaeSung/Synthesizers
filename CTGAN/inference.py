@@ -65,7 +65,7 @@ def main():
     # %%
     config = vars(get_args(debug=False))  # default configuration
     """model load"""
-    model_name = f"{config['model']}_{config['latent_dim']}_{config['dataset']}"
+    model_name = f"{config['model']}_{config['latent_dim']}_{config['batch_size']}_{config['epochs']}_{config['discriminator_steps']}_{config['dataset']}"
     artifact = wandb.use_artifact(
         f"{project}/{model_name}:v{config['ver']}",
         type='model')
