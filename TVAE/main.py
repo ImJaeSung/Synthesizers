@@ -1,4 +1,3 @@
-# %%
 """
 Reference:
 [1] https://github.com/sdv-dev/CTGAN/blob/main/ctgan/synthesizers/tvae.py
@@ -7,16 +6,11 @@ Reference:
 import os
 import importlib
 import sys
-# %%
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 
 import torch
 from torch.utils.data import DataLoader
 
 from modules.utils import set_random_seed
-
 import warnings
 warnings.filterwarnings(action='ignore')
 # %%
@@ -30,7 +24,7 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding="utf-8")
     import wandb
 
-project = "TVAE_2stage" # put your WANDB project name
+project = "2stage_baseline" # put your WANDB project name
 # entity = "" # put your WANDB username
 
 run = wandb.init(
@@ -53,7 +47,8 @@ def get_args(debug):
 
     parser.add_argument('--seed', type=int, default=0, 
                         help='seed for repeatable results')
-    parser.add_argument('--dataset', type=str, default='banknote', 
+    parser.add_argument("--model", type=str, default="TVAE")
+    parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         [Tabular dataset options]
                         imbalanced: whitewine, bankruptcy, BAF
@@ -90,14 +85,9 @@ def get_args(debug):
 def main():
     # %%
     config = vars(get_args(debug=False))  # default configuration
-    config["cuda"] = torch.cuda.is_available()
+    set_random_seed(config["seed"])
     device = (torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu"))
     wandb.config.update(config)
-
-    set_random_seed(config["seed"])
-    torch.manual_seed(config["seed"])
-    if config["cuda"]:
-        torch.cuda.manual_seed(config["seed"])
     # %%
     """dataset"""
     dataset_module = importlib.import_module('datasets.preprocess')
@@ -115,8 +105,7 @@ def main():
     importlib.reload(model_module)
     model = model_module.TVAE(config, device).to(device)
     optimizer = torch.optim.Adam(
-        model.parameters(), lr=config["lr"], weight_decay=1e-5
-    )
+        model.parameters(), lr=config["lr"], weight_decay=1e-5)
     model.train()
     #%%
     """number of parameters"""
@@ -128,29 +117,16 @@ def main():
     # %%
     train_module = importlib.import_module('modules.train')
     importlib.reload(train_module)
-    
-    for epoch in range(config["epochs"]):
-        logs = train_module.train(
-            train_dataset.EncodedInfo.transformer.output_info_list,
-            train_dataset,
-            train_dataloader,
-            model,
-            config,
-            optimizer,
-            device,
-        )
-
-        print_input = "[epoch {:03d}]".format(epoch + 1)
-        print_input += "".join(
-            [", {}: {:.4f}".format(x, np.mean(y)) for x, y in logs.items()]
-        )
-        print(print_input)
-
-        """update log"""
-        wandb.log({x: np.mean(y) for x, y in logs.items()})
+    train_module.train_function(
+        output_info_list=train_dataset.EncodedInfo.transformer.output_info_list,
+        dataloader=train_dataloader,
+        model=model,
+        config=config,
+        optimizer=optimizer,
+        device=device)
     # %%
     """model save"""
-    base_name = f"{project}_{config['latent_dim']}_{config['epochs']}_{config['batch_size']}_{config['loss_factor']}_{config['dataset']}"
+    base_name = f"{config['model']}_{config['latent_dim']}_{config['epochs']}_{config['batch_size']}_{config['loss_factor']}_{config['dataset']}"
     model_dir = f"./assets/models/{base_name}/"
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)

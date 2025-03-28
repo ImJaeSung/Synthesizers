@@ -1,8 +1,4 @@
 #%%
-import tqdm
-import os
-import numpy as np
-import pandas as pd
 from sklearn.model_selection import train_test_split
 
 import torch
@@ -10,9 +6,6 @@ from torch.utils.data import Dataset
 
 from modules.data_transformer import DataTransformer
 from datasets.raw_data import load_raw_data
-
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from collections import namedtuple
 EncodedInfo = namedtuple(
@@ -28,7 +21,7 @@ class CustomDataset(Dataset):
         
         self.config = config
         self.train = train
-        data, continuous_features, categorical_features, integer_features, ClfTarget = load_raw_data(config)
+        data, continuous_features, categorical_features, integer_features, ClfTarget = load_raw_data(config["dataset"])
         self.continuous_features = continuous_features
         self.categorical_features = categorical_features
         self.integer_features = integer_features

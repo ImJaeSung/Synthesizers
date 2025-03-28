@@ -40,8 +40,6 @@ run = wandb.init(
     tags=["train"], # put tags of this python project
 )
 # %%
-
-
 def arg_as_list(s):
     v = ast.literal_eval(s)
     if type(v) is not list:
@@ -158,8 +156,7 @@ def main():
     importlib.reload(dataset_module)
     CustomDataset = dataset_module.CustomDataset
 
-    train_dataset = CustomDataset(
-        config, train=True)
+    train_dataset = CustomDataset(config, train=True)
     
     assert validate_discrete_columns(
         train_dataset.raw_data, 

@@ -1,21 +1,17 @@
 # %%
 import os
-import io
+import sys
 import argparse
 import importlib
 
 import torch
 
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from evaluation.simulation import set_random_seed
-from evaluation.evaluation import evaluate
-from evaluation import utility
-
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from modules.utils import set_random_seed
+from synthetic_eval import evaluation
 import warnings
 warnings.filterwarnings('ignore')
 # %%
-import sys
 import subprocess
 try:
     import wandb
@@ -26,12 +22,12 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding='utf-8')
     import wandb
 
-project = "TVAE_2stage" # put your WANDB project name
+project = "2stage_baseline" # put your WANDB project name
 # entity = "" # put your WANDB username
 
 run = wandb.init(
     project=project, 
-    entity=entity, 
+    # entity=entity, 
     tags=["inference"], # put tags of this python project
 )
 # %%
@@ -40,7 +36,8 @@ def get_args(debug):
 
     parser.add_argument('--ver', type=int, default=0, 
                         help='model version number')
-    parser.add_argument('--dataset', type=str, default='banknote', 
+    parser.add_argument("--model", type=str, default="TVAE")
+    parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         [Tabular dataset options]
                         imbalanced: whitewine, bankruptcy, BAF
@@ -58,7 +55,7 @@ def get_args(debug):
                         help='weight in ELBO')
 
     if debug:
-        return parser.parse_args(arsgs=[])
+        return parser.parse_args(args=[])
     else:
         return parser.parse_args()
 # %%
@@ -67,7 +64,7 @@ def main():
     config = vars(get_args(debug=False))  # default configuration
 
     """model load"""
-    model_name = f"{project}_{config['latent_dim']}_{config['epochs']}_{config['batch_size']}_{config['loss_factor']}_{config['dataset']}"
+    model_name = f"{config['model']}_{config['latent_dim']}_{config['epochs']}_{config['batch_size']}_{config['loss_factor']}_{config['dataset']}"
     artifact = wandb.use_artifact(
         f"{project}/{model_name}:v{config['ver']}",
         type='model')
@@ -86,10 +83,8 @@ def main():
     importlib.reload(dataset_module)
     CustomDataset = dataset_module.CustomDataset
 
-    train_dataset = CustomDataset(
-        config, train=True)
-    test_dataset = CustomDataset(
-        config, train=False)
+    train_dataset = CustomDataset(config, train=True)
+    test_dataset = CustomDataset(config, train=False)
     config["input_dim"] = train_dataset.EncodedInfo.transformer.output_dimensions
     #%%
     """model"""
@@ -113,9 +108,7 @@ def main():
     model.eval()
     # %%
     """Number of Parameters"""
-    count_parameters = lambda model: sum(
-        p.numel() for p in model.parameters() if p.requires_grad
-    )
+    count_parameters = lambda model: sum(p.numel() for p in model.parameters() if p.requires_grad)
     num_params = count_parameters(model)
     print(f"Number of Parameters: {num_params/1000:.2f}K")
     wandb.log({"Number of Parameters": num_params/1000})
@@ -124,8 +117,7 @@ def main():
     n = len(train_dataset.raw_data) 
     syndata = model.generate_synthetic_data(n, train_dataset)
     # %%
-    """load Synthetic-Eval"""
-    from synthetic_eval import evaluation
+    """evaluation"""
     results = evaluation.evaluate(
         syndata, 
         train_dataset.raw_data, 
