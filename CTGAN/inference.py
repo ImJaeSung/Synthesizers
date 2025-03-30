@@ -123,7 +123,7 @@ def main():
     model_module = importlib.import_module("modules.model")
     importlib.reload(model_module)
     
-    generator_dim = [int(x) for x in config["generator_dim"].split(",")]
+    generator_dim = [config["generator_dim"] for _ in range(2)]
     model = getattr(model_module, "Generator")(
         config["latent_dim"] + data_sampler.dim_cond_vec(),
         generator_dim,
