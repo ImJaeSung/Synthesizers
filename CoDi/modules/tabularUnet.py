@@ -342,6 +342,4 @@ def get_timestep_embedding(timesteps, embedding_dim, max_positions=10000):
   assert emb.shape == (timesteps.shape[0], embedding_dim)
   return emb
 
-
-
 # %%
