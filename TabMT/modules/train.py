@@ -22,7 +22,7 @@ def train_function(
 
         for batch in tqdm(train_dataloader, desc="inner roop"):
             batch = batch.to(device)            
-            mask = torch.rand_like(batch, dtype=torch.float32) > torch.rand(len(batch), 1)
+            mask = torch.rand_like(batch, dtype=torch.float32, device=device) > torch.rand(len(batch), 1, device=device)
             mask = mask.to(device)
             
             loss_ = []

@@ -137,7 +137,7 @@ def main():
     wandb.log({"Number of Parameters": num_params / 1000})
     #%%
     """train"""
-    if config["missing_type"] is None:
+    if config["missing_type"] == "None":
         train_module = importlib.import_module('modules.train')
     else:
         train_module = importlib.import_module('modules.missing_train')
@@ -151,7 +151,7 @@ def main():
         device)
     #%%
     """model save"""
-    base_name = f"{config['model']}_{config['missing_type']}_{config['dim_transformer']}_{config['num_transformer_heads']}_{config['max_clusters']}_{config['num_transformer_layer']}_{config['epochs']}_{config['tau']}_{config['dataset']}"
+    base_name = f"{config['model']}_{config['missing_type']}_{config['dim_transformer']}_{config['num_transformer_heads']}_{config['max_clusters']}_{config['num_transformer_layer']}_{config['batch_size']}_{config['epochs']}_{config['tau']}_{config['dataset']}"
     model_dir = f"./assets/models/{base_name}/"
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)

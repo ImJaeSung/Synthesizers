@@ -20,7 +20,7 @@ def train_function(
 
         for batch in tqdm(train_dataloader, desc="inner roop"):
             batch = batch.to(device)
-            mask1 = torch.rand_like(batch, dtype=torch.float32) > torch.rand(len(batch), 1)
+            mask1 = torch.rand_like(batch, dtype=torch.float32, device=device) > torch.rand(len(batch), 1, deivce=device)
             mask1 = mask1.to(device)
             nan_mask = batch == -1
             # nan_mask = nan_mask.to(device)

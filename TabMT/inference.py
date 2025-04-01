@@ -86,7 +86,7 @@ def main():
     config = vars(get_args(debug=False)) # default configuration
     
     """model load"""
-    model_name = f"{config['model']}_{config['missing_type']}_{config['dim_transformer']}_{config['num_transformer_heads']}_{config['max_clusters']}_{config['num_transformer_layer']}_{config['epochs']}_{config['tau']}_{config['dataset']}"
+    model_name = f"{config['model']}_{config['missing_type']}_{config['dim_transformer']}_{config['num_transformer_heads']}_{config['max_clusters']}_{config['num_transformer_layer']}_{config['batch_size']}_{config['epochs']}_{config['tau']}_{config['dataset']}"
 
     if config["SmallerGen"]:
         model_name = "small_" + model_name
