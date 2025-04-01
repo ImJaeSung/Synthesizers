@@ -25,8 +25,7 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding="utf-8")
     import wandb
 
-# project = "2stage_baseline" # put your WANDB project name
-project = "debug" # put your WANDB project name
+project = "2stage_baseline_debug" # put your WANDB project name
 # entity = "" # put your WANDB username
 
 run = wandb.init(

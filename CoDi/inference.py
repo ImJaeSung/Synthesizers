@@ -27,8 +27,7 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding='utf-8')
     import wandb
 
-# project = "2stage_baseline" # put your WANDB project name
-project = "debug" # put your WANDB project name
+project = "2stage_baseline_debug" # put your WANDB project name
 # entity = "" # put your WANDB username
 
 run = wandb.init(
@@ -160,11 +159,6 @@ def main():
         )
     tabularUnet_Cont.eval()
     #%%
-    trainer_module = importlib.import_module('modules.diffusion')
-    importlib.reload(trainer_module)
-    Sampler_Cont = trainer_module.GaussianDiffusionSampler(tabularUnet_Cont, config).to(device)
-    Trainer_Disc = trainer_module.MultinomialDiffusion(train_dataset, tabularUnet_Disc, config).to(device)
-    #%%
     config["Disc_encoder_dim"] = [config["Disc_encoder_dim_"] * (2 ** i) for i in range(3)]
     tabularUnet_Disc = model_module.tabularUnet(
         config, train_dataset_Cont, train_dataset_Disc, Continuous=False).to(device)
@@ -182,7 +176,11 @@ def main():
             )
         )
     tabularUnet_Disc.eval()
-    
+    #%%
+    trainer_module = importlib.import_module('modules.diffusion')
+    importlib.reload(trainer_module)
+    Sampler_Cont = trainer_module.GaussianDiffusionSampler(tabularUnet_Cont, config).to(device)
+    Trainer_Disc = trainer_module.MultinomialDiffusion(train_dataset, tabularUnet_Disc, config).to(device)
     #%%
     """number of parameters"""
     count_parameters = lambda model: sum(p.numel() for p in model.parameters() if p.requires_grad)

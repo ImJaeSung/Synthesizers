@@ -20,7 +20,7 @@ class Encoder(nn.Module):
     for i in range(len(encoder_dim)):
       if (i+1) == len(encoder_dim): break
       encoding_block = EncodingBlock(
-          encoder_dim[i], encoder_dim[i+1], embed_dim * 4)
+          encoder_dim[i], encoder_dim[i+1], embed_dim * 4, config)
       self.encoding_blocks.append(encoding_block)
 
   def forward(self, x, t):
@@ -31,19 +31,19 @@ class Encoder(nn.Module):
     return skip_connections, x
 
 class EncodingBlock(nn.Module):
-  def __init__(self, input_dim, output_dim, embed_dim):
+  def __init__(self, input_dim, output_dim, embed_dim, config):
     super(EncodingBlock, self).__init__()
     self.layer1 = nn.Sequential( 
         nn.Linear(input_dim, output_dim),
-        nn.Tanh()
+        get_activation_fn(config["activation_fn"])
     ) 
     self.temb_proj = nn.Sequential(
         nn.Linear(embed_dim, output_dim),
-        nn.Tanh()
+        get_activation_fn(config["activation_fn"])
     )
     self.layer2 = nn.Sequential(
         nn.Linear(output_dim, output_dim),
-        nn.Tanh()
+        get_activation_fn(config["activation_fn"])
     )
     
   def forward(self, x, t):
@@ -66,7 +66,7 @@ class Decoder(nn.Module):
     for i in range(len(decoder_dim)):
       if (i+1)==len(decoder_dim): break
       decoding_block = DecodingBlock(
-          decoder_dim[i], decoder_dim[i+1], embed_dim * 4)
+          decoder_dim[i], decoder_dim[i+1], embed_dim * 4, config)
       self.decoding_blocks.append(decoding_block)
 
   def forward(self, skip_connections, x, t):
@@ -76,19 +76,19 @@ class Decoder(nn.Module):
     return x
 
 class DecodingBlock(nn.Module):
-  def __init__(self, input_dim, output_dim, embed_dim):
+  def __init__(self, input_dim, output_dim, embed_dim, config):
     super(DecodingBlock, self).__init__()
     self.layer1 = nn.Sequential( 
         nn.Linear(input_dim * 2, input_dim),
-        nn.Tanh()
+        get_activation_fn(config["activation_fn"])
     )
     self.temb_proj = nn.Sequential(
         nn.Linear(embed_dim, input_dim),
-        nn.Tanh()
+        get_activation_fn(config["activation_fn"])
     )
     self.layer2 = nn.Sequential(
         nn.Linear(input_dim, output_dim),
-        nn.Tanh()
+        get_activation_fn(config["activation_fn"])
     )
     
   def forward(self, skip_connection, x, t):
@@ -192,8 +192,6 @@ def generate_synthetic_data(train_dataset, Sampler_Cont, Trainer_Disc, config, d
         log_x_T_Disc = log_sample_categorical(torch.zeros(train_dataset_Disc.shape, device=device), train_dataset.num_categories).to(device)
         
         x_Cont, x_Disc = sampling_with(x_T_Cont, log_x_T_Disc, Sampler_Cont, Trainer_Disc, config)
-        x_Cont.shape
-        x_Disc.shape
         x_Disc = apply_activate(x_Disc, train_dataset.EncodedInfo_list[C:])
     
     """categorical"""
@@ -211,6 +209,7 @@ def generate_synthetic_data(train_dataset, Sampler_Cont, Trainer_Disc, config, d
     data = pd.DataFrame(data.cpu().numpy(), columns=train_dataset.continuous_features + train_dataset.categorical_features)
  
     """continuous"""
+    data[train_dataset.continuous_features] = (data[train_dataset.continuous_features]+ 1) / 2
     data[train_dataset.continuous_features] = data[train_dataset.continuous_features]  * (train_dataset.max - train_dataset.min) + train_dataset.min
     
     """post-process integer columns (calibration)"""
