@@ -21,7 +21,7 @@ class CustomDataset(Dataset):
         
         self.config = config
         self.train = train
-        data, continuous_features, categorical_features, integer_features, ClfTarget = load_raw_data(config["dataset"])
+        data, continuous_features, categorical_features, integer_features, ClfTarget = load_raw_data(config)
         self.continuous_features = continuous_features
         self.categorical_features = categorical_features
         self.integer_features = integer_features
