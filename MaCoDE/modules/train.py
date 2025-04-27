@@ -18,12 +18,18 @@ def multiclass_loss(model, batch, pred, mask):
             class_loss += tmp
     return class_loss
 #%%
-def ranked_probability_score(model,batch, pred):
+def ranked_probability_score(model, batch, pred, mask):
     RPS = 0.
     for j in range(model.EncodedInfo.num_features):
-        CDF = pred[j].softmax(dim=1).cumsum(dim=1)
-        target = F.one_hot(batch[:, j].long(), num_classes=pred[j].size(1)).cumsum(dim=1)
-        RPS += (CDF - target).pow(2).sum(dim=1).mean()
+        CDF = pred[j][mask[:, j]].softmax(dim=1).cumsum(dim=1)
+        target = F.one_hot(
+            batch[:, j][mask[:, j]].long()-1, 
+            num_classes=pred[j].size(1)
+        ).cumsum(dim=1)
+        
+        tmp = (CDF - target).pow(2).sum(dim=1).mean()
+        if not tmp.isnan():
+            RPS += tmp
     return RPS
 #%%
 def train_function(
@@ -48,15 +54,14 @@ def train_function(
             loss_ = []
             
             optimizer.zero_grad()
-            
+
             pred = model(masked_batch)
             
-            if config['loss'] == 'multiclass'":
+            if config['loss'] == 'multiclass':
                 loss = multiclass_loss(model, batch, pred, mask)
             
             elif config['loss'] == 'RPS':
-                loss = ranked_probability_score(batch, )
-        
+                loss = ranked_probability_score(model, batch, pred, mask)
         
             loss_.append(('loss', loss))
             

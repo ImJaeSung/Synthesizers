@@ -70,6 +70,9 @@ def get_args(debug):
                         help='the number of epochs')
     parser.add_argument('--batch_size', default=1024, type=int,
                         help='batch size')
+    
+    parser.add_argument('--loss', type=str, default='multiclass', 
+                        help="multiclass, RPS")
     parser.add_argument('--lr', default=0.001, type=float,
                         help='learning rate')
     parser.add_argument('--weight_decay', default=0., type=float,
@@ -86,7 +89,6 @@ def main():
     set_random_seed(config['seed'])
     device = torch.device(
         'cuda' if torch.cuda.is_available() else
-        'mps' if torch.mps.is_available() else
         'cpu')
     print('Current device is', device)
     wandb.config.update(config)

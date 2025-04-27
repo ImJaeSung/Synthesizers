@@ -36,6 +36,8 @@ def get_args(debug):
     
     parser.add_argument('--ver', type=int, default=0, 
                         help='model version number')
+    parser.add_argument('--model', type=str, default='macode')
+    
     parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         Dataset options: 
@@ -65,6 +67,8 @@ def get_args(debug):
                         help="the ratio of train test split")     
     parser.add_argument('--epochs', default=1000, type=int,
                         help='the number of epochs')
+    parser.add_argument('--loss', type=str, default='multiclass', 
+                        help="multiclass, RPS")
     parser.add_argument('--batch_size', default=1024, type=int,
                         help='batch size')
     parser.add_argument('--lr', default=0.001, type=float,
