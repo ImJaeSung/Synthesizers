@@ -67,10 +67,11 @@ def get_args(debug):
                         help="the ratio of train test split")     
     parser.add_argument('--epochs', default=1000, type=int,
                         help='the number of epochs')
-    parser.add_argument('--loss', type=str, default='multiclass', 
-                        help="multiclass, RPS")
     parser.add_argument('--batch_size', default=1024, type=int,
                         help='batch size')
+    
+    parser.add_argument('--loss', type=str, default='multiclass', 
+                        help="multiclass, RPS")
     parser.add_argument('--lr', default=0.001, type=float,
                         help='learning rate')
     parser.add_argument('--weight_decay', default=0., type=float,

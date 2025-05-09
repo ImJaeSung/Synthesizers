@@ -47,6 +47,8 @@ class CustomDataset(Dataset):
         data = train_data if train else test_data
         data = data.reset_index(drop=True)
         self.raw_data = train_data[self.features] if train else test_data[self.features]
+        self.raw_data[self.continuous_features] = self.raw_data[self.continuous_features].astype(np.float32)
+        self.raw_data[self.integer_features] = self.raw_data[self.integer_features].astype(np.int8)
         
         # generate missingness patterns
         if train:

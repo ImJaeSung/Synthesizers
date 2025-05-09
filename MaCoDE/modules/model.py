@@ -61,11 +61,13 @@ class Embedding(nn.Module):
 class DynamicLinear(nn.Module):
     def __init__(self, embedding):
         super().__init__()
-        self.E = embedding
-        self.bias = nn.Parameter(torch.zeros(len(embedding.weight)))
+        self.linear = embedding
+        # self.E = embedding
+        # self.bias = nn.Parameter(torch.zeros(len(embedding.weight)))
 
     def forward (self, x):
-        h = x @ self.E.weight.T + self.bias
+        h = self.linear(x)
+        # h = x @ self.E.weight.T + self.bias
         return h
 #%%
 class DynamicLinearLayer(nn.Module):
@@ -75,16 +77,24 @@ class DynamicLinearLayer(nn.Module):
         self.embedding = nn.ModuleList()
         for _ in range(EncodedInfo.num_continuous_features):
             self.embedding.append(
-                nn.Embedding(
-                    config["bins"], 
-                    config["dim_transformer"]
+                # nn.Embedding(
+                #     config["bins"], 
+                #     config["dim_transformer"]
+                # ).to(device)
+                nn.Linear(
+                    config["dim_transformer"],
+                    config["bins"] 
                 ).to(device)
             )
         for num_category in EncodedInfo.num_categories:
             self.embedding.append(
-                nn.Embedding(
-                    num_category, 
-                    config["dim_transformer"]
+                # nn.Embedding(
+                #     num_category, 
+                #     config["dim_transformer"]
+                # ).to(device)
+                nn.Linear(
+                    config["dim_transformer"],
+                    num_category
                 ).to(device)
             )
 
@@ -165,8 +175,8 @@ class MaCoDE(nn.Module):
         for col, scaler in train_dataset.scalers.items():
             data[[col]] = scaler.inverse_transform(cont[[col]]).astype(np.float32)
             
-        data[train_dataset.categorical_features] = data[train_dataset.categorical_features].astype(int)
-        data[train_dataset.integer_features] = data[train_dataset.integer_features].round(0).astype(int)
+        data[train_dataset.categorical_features] = data[train_dataset.categorical_features].astype(np.int8)
+        data[train_dataset.integer_features] = data[train_dataset.integer_features].round(0).astype(np.int8)
         return data
     
     def impute(self, train_dataset, tau=1):

@@ -29,7 +29,20 @@ def load_raw_data(config):
         ]
         integer_features = []
         ClfTarget = "Rings"
-    
+    elif config["dataset"] == "anuran":
+        data = pd.read_csv('./data/anuran.csv')
+        
+        assert data.isna().sum().sum() == 0
+        
+        continuous_features = [x for x in data.columns if x.startswith("MFCCs_")]
+        categorical_features = [
+            'Family',
+            'Genus',
+            'Species'
+        ]
+        integer_features = []
+        ClfTarget = "Species"   
+        
     elif config["dataset"] == "banknote":
         data = pd.read_csv('./data/banknote.txt', header=None)
         data.columns = ["variance", "skewness", "curtosis", "entropy", "class"]
@@ -189,7 +202,7 @@ def load_raw_data(config):
             'Securities Account',
             'CD Account',
             'Online',
-            'CreditCard'
+            'CreditCard',
             'Personal Loan',
         ]
         integer_features = [
