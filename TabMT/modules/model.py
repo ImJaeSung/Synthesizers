@@ -167,7 +167,7 @@ class TabMT(nn.Module):
                     if num_feature < len(train_dataset.EncodedInfo.OCC):
                         cat_label = Categorical(logits=preds[num_feature] / self.config["tau"]).sample()
                         batch[: , num_feature] = cat_label
-                        syn_data[: , num_feature] = train_dataset.EncodedInfo.OCC[num_feature][cat_label]
+                        syn_data[: , num_feature] = train_dataset.EncodedInfo.OCC[num_feature].to(self.device)[cat_label]
                     else:
                         batch[: , num_feature] = Categorical(logits=preds[num_feature] / self.config["tau"]).sample()
                         syn_data[: , num_feature] = batch[: , num_feature]

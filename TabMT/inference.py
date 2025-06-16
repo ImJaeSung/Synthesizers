@@ -1,6 +1,7 @@
 #%%
 import os
 
+import numpy as np
 import torch
 
 import argparse
@@ -26,7 +27,7 @@ project = "2stage_baseline" # put your WANDB project name
 run = wandb.init(
     project=project, 
     # entity=entity, 
-    tags=["inference"], # put tags of this python project
+    tags=["inference", "PCD"], # put tags of this python project
 )
 
 #%%
@@ -57,18 +58,20 @@ def get_args(debug):
                         help="""
                         how to generate missing: None(complete data), MCAR, MAR, MNARL, MNARQ
                         """) 
-    parser.add_argument("--max_clusters", default=10, type=int,
+    parser.add_argument("--max_clusters", default=20, type=int,
                         help="the number of bins used quantization")
-    parser.add_argument('--epochs', default=10000, type=int,
+    parser.add_argument('--batch_size', default=512, type = int,
+                        help='batch size')
+    parser.add_argument('--epochs', default=20000, type=int,
                         help='the number of epochs')
     
-    parser.add_argument("--dim_transformer", default=128, type=int,
+    parser.add_argument("--dim_transformer", default=512, type=int,
                         help="the model dimension size")  
-    parser.add_argument("--num_transformer_heads", default=4, type=int,
+    parser.add_argument("--num_transformer_heads", default=8, type=int,
                         help="the number of heads in transformer")
     parser.add_argument("--transformer_dropout", default=0., type=float,
                         help="the rate of drop out in transformer") 
-    parser.add_argument("--num_transformer_layer", default=2, type=int,
+    parser.add_argument("--num_transformer_layer", default=8, type=int,
                         help="the number of layer in transformer") 
 
     parser.add_argument("--tau", default=1.0, type=float,
@@ -168,6 +171,20 @@ def main():
     for x, y in results._asdict().items():
         print(f"{x}: {y:.3f}")
         wandb.log({f"{x}": y})
+        
+    from dython.nominal import associations
+    print("Pairwise correlation difference (PCD)...")
+    syn_asso = associations(
+        syndata, 
+        nominal_columns=train_dataset.categorical_features,
+        compute_only=True)
+    true_asso = associations(
+        train_dataset.raw_data,
+        nominal_columns=train_dataset.categorical_features,
+        compute_only=True)
+    pcd_corr = np.linalg.norm(true_asso["corr"] - syn_asso["corr"])
+    print("Pairwise correlation difference (PCD) : ",pcd_corr)
+    wandb.log({"PCD":pcd_corr})
     
     # wandb.log({'Marginal Histogram': wandb.Image(fig)})
     #%%
