@@ -5,8 +5,8 @@ import argparse
 import importlib
 import matplotlib.pyplot as plt
 
-from modules.utility import set_random_seed
-from modules.utility import generalization_score, DCR_values
+from modules.utils import set_random_seed
+from modules.utils import generalization_score, DCR_values
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -22,55 +22,63 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding='utf-8')
     import wandb
 
-project = "DSGM0"
-entity = "anseunghwan"
+project = "2stage_baseline"
+# entity = ""
 
 run = wandb.init(
     project=project, # put your WANDB project name
-    entity=entity, # put your WANDB username
+    # entity=entity, # put your WANDB username
     tags=["memorization"], # put tags of this python project
 )
 #%%
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+    
 def get_args(debug):
     parser = argparse.ArgumentParser('parameters')
     
-    parser.add_argument('--gpu_id', type=int, default=0)
-    parser.add_argument('--seed', type=int, default=0, 
-                        help='seed for repeatable results')
+    parser.add_argument('--ver', type=int, default=0, 
+                        help='model version number')
+    parser.add_argument("--model", type=str, default="TabMT")
+    
     parser.add_argument('--dataset', type=str, default='whitewine', 
                         help="""
                         Dataset options: 
-                        abalone, anuran, banknote, breast, concrete,
+                        abalone, banknote, breast, concrete, covtype,
                         kings, letter, loan, redwine, whitewine
                         """)
+    parser.add_argument("--missing_type", default="None", type=str,
+                        help="""
+                        how to generate missing: None(complete data), MCAR, MAR, MNARL, MNARQ
+                        """) 
+    parser.add_argument("--max_clusters", default=20, type=int,
+                        help="the number of bins used quantization")
+    parser.add_argument('--batch_size', default=512, type = int,
+                        help='batch size')
+    parser.add_argument('--epochs', default=20000, type=int,
+                        help='the number of epochs')
     
     parser.add_argument("--dim_transformer", default=512, type=int,
                         help="the model dimension size")  
     parser.add_argument("--num_transformer_heads", default=8, type=int,
                         help="the number of heads in transformer")
-    parser.add_argument("--num_transformer_layer", default=1, type=int,
+    parser.add_argument("--transformer_dropout", default=0., type=float,
+                        help="the rate of drop out in transformer") 
+    parser.add_argument("--num_transformer_layer", default=8, type=int,
                         help="the number of layer in transformer") 
-    # parser.add_argument("--transformer_dropout", default=0., type=float,
-    #                     help="the rate of drop out in transformer") 
-    
-    parser.add_argument("--M", default=100, type=int,
-                        help="the cardinality of latent variable")
-    parser.add_argument("--cutpoint", default=4, type=int,
-                        help="the start(or end) value of the latent variable set")
-    
-    parser.add_argument("--test_size", default=0.2, type=float,
-                        help="the ratio of train test split")     
-    parser.add_argument('--epochs', default=1000, type=int,
-                        help='the number of epochs')
-    parser.add_argument('--batch_size', default=256, type=int,
-                        help='batch size')
-    parser.add_argument('--lr', default=0.001, type=float,
-                        help='learning rate')
-    # parser.add_argument('--weight_decay', default=0., type=float,
-    #                     help='parameter of AdamW')
-        
-    parser.add_argument('--beta', default=0.1, type=float,
-                        help='decoder variance')
+
+    parser.add_argument("--tau", default=1.0, type=float,
+                        help="user defined temperature for privacy controlling")
+    parser.add_argument('--SmallerGen', default=False, type=str2bool,
+                       help='Use smaller batch size for synthetic data generation') 
+                    
 
     if debug:
         return parser.parse_args(args=[])
@@ -82,44 +90,63 @@ def main():
     config = vars(get_args(debug=False)) # default configuration
     
     """model load"""
-    model_name = "_".join([str(y) for x, y in config.items() if x != 'seed' and x != 'beta' and x != 'gpu_id']) 
+    model_name = f"{config['model']}_{config['missing_type']}_{config['dim_transformer']}_{config['num_transformer_heads']}_{config['max_clusters']}_{config['num_transformer_layer']}_{config['batch_size']}_{config['epochs']}_{config['tau']}_{config['dataset']}"
+
+    if config["SmallerGen"]:
+        model_name = "small_" + model_name
+
     artifact = wandb.use_artifact(
-        f"{project}/{model_name}:v{config['seed']}",
-        type='model')
+        f"{project}/{model_name}:v{config['ver']}",
+        type='model'
+    )
     for key, item in artifact.metadata.items():
         config[key] = item
     model_dir = artifact.download()
+
+    model_name = [x for x in os.listdir(model_dir) if x.endswith(f"{config['seed']}.pth")][0]
     
     config["cuda"] = torch.cuda.is_available()
-    device = torch.device(f"cuda:{config['gpu_id']}" if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
+    wandb.config.update(config)
+
     set_random_seed(config["seed"])
+    torch.manual_seed(config["seed"])
+    if config["cuda"]:
+        torch.cuda.manual_seed(config["seed"])
     wandb.config.update(config)
     #%%
     dataset_module = importlib.import_module('datasets.preprocess')
     importlib.reload(dataset_module)
     CustomDataset = dataset_module.CustomDataset
-
     """dataset"""
     train_dataset = CustomDataset(
-        config, train=True)
+        config,
+        kmeans_models=None,
+        train=True
+    )
     test_dataset = CustomDataset(
-        config, scalers=train_dataset.scalers, train=False)
+        config,
+        kmeans_models=train_dataset.kmeans_models,
+        train=False)
     #%%
     """model"""
-    model_name = [x for x in os.listdir(model_dir) if x.endswith(f"{config['seed']}.pth")][0]
     model_module = importlib.import_module("modules.model")
     importlib.reload(model_module)
-    model = getattr(model_module, "Model")(
-        torch.from_numpy(train_dataset.thetas),
-        config, train_dataset.EncodedInfo, device
-    ).to(device)
-
-    model.load_state_dict(
-        torch.load(
-            model_dir + "/" + model_name,
-            map_location=device,
+    model = model_module.TabMT(config, train_dataset.EncodedInfo, device).to(device)
+    
+    if config["cuda"]:
+        model.load_state_dict(
+            torch.load(
+                model_dir + '/' + model_name
+            )
         )
-    )
+    else:
+        model.load_state_dict(
+            torch.load(
+                model_dir + '/' + model_name, 
+                map_location=torch.device('cpu'),
+            )
+        )
     model.eval()
     #%%
     count_parameters = lambda model: sum(p.numel() for p in model.parameters())
@@ -127,14 +154,21 @@ def main():
     print(f"Number of Parameters: {num_params / 1000000:.3f}M")
     wandb.log({"Number of Parameters": num_params / 1000000})
     #%%
+    """Synthetic data generation"""
     n = len(train_dataset.raw_data)
-    syndata = model.generate_synthetic_data(n, train_dataset, config['beta'])
+    syndata = model.generate_synthetic_data(n, train_dataset)
     #%%
     syn_cos = generalization_score(
-        train_dataset.raw_data, syndata, train_dataset.continuous_features, train_dataset.categorical_features
+        train_dataset.raw_data, 
+        syndata, 
+        train_dataset.continuous_features,
+        train_dataset.categorical_features
     )
     test_cos = generalization_score(
-        train_dataset.raw_data, test_dataset.raw_data, train_dataset.continuous_features, train_dataset.categorical_features
+        train_dataset.raw_data, 
+        test_dataset.raw_data, 
+        train_dataset.continuous_features, 
+        train_dataset.categorical_features
     )
 
     threshold = 0.95
@@ -180,15 +214,22 @@ def main():
     ax.legend(fontsize=12)
 
     plt.tight_layout()
-    plt.savefig(f"{directory}/hist_glscore_{config['dataset']}_ours.png")
+    plt.savefig(f"{directory}/hist_glscore_{config['dataset']}_{config['model']}.png")
     plt.show()
     plt.close()
     #%%
     syn_dcr = DCR_values(
-        train_dataset.raw_data, syndata, train_dataset.continuous_features, train_dataset.categorical_features
+        train_dataset.raw_data, 
+        syndata, 
+        train_dataset.
+        continuous_features, 
+        train_dataset.categorical_features
     )
     test_dcr = DCR_values(
-        train_dataset.raw_data, test_dataset.raw_data, train_dataset.continuous_features, train_dataset.categorical_features
+        train_dataset.raw_data, 
+        test_dataset.raw_data, 
+        train_dataset.continuous_features, 
+        train_dataset.categorical_features
     )
     #%%
     directory = f"./assets/fig_dcr/"
@@ -225,7 +266,7 @@ def main():
     ax.legend(fontsize=12)
 
     plt.tight_layout()
-    plt.savefig(f"{directory}/hist_dcr_{config['dataset']}_ours.png")
+    plt.savefig(f"{directory}/hist_dcr_{config['dataset']}_{config['model']}.png")
     plt.show()
     plt.close()
     #%%
