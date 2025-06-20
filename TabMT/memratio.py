@@ -1,17 +1,16 @@
 #%%
 import os
+
+import numpy as np
 import torch
+
 import argparse
 import importlib
-import matplotlib.pyplot as plt
-
-from modules.utils import set_random_seed
-from modules.utils import generalization_score, DCR_values
-
-import warnings
-warnings.filterwarnings('ignore')
-#%%
 import sys
+from modules.utils import set_random_seed, memorization_ratio
+from synthetic_eval import evaluation
+
+#%%
 import subprocess
 try:
     import wandb
@@ -22,14 +21,15 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding='utf-8')
     import wandb
 
-project = "2stage_baseline"
-# entity = ""
+project = "2stage_baseline" # put your WANDB project name
+# entity = "" # put your WANDB username
 
 run = wandb.init(
-    project=project, # put your WANDB project name
-    # entity=entity, # put your WANDB username
+    project=project, 
+    # entity=entity, 
     tags=["memorization"], # put tags of this python project
 )
+
 #%%
 def str2bool(v):
     if isinstance(v, bool):
@@ -40,7 +40,7 @@ def str2bool(v):
         return False
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
-    
+
 def get_args(debug):
     parser = argparse.ArgumentParser('parameters')
     
@@ -78,11 +78,10 @@ def get_args(debug):
                         help="user defined temperature for privacy controlling")
     parser.add_argument('--SmallerGen', default=False, type=str2bool,
                        help='Use smaller batch size for synthetic data generation') 
-                    
-
+    
     if debug:
         return parser.parse_args(args=[])
-    else:    
+    else:
         return parser.parse_args()
 #%%
 def main():
@@ -113,11 +112,11 @@ def main():
     torch.manual_seed(config["seed"])
     if config["cuda"]:
         torch.cuda.manual_seed(config["seed"])
-    wandb.config.update(config)
     #%%
     dataset_module = importlib.import_module('datasets.preprocess')
     importlib.reload(dataset_module)
     CustomDataset = dataset_module.CustomDataset
+    
     """dataset"""
     train_dataset = CustomDataset(
         config,
@@ -129,7 +128,6 @@ def main():
         kmeans_models=train_dataset.kmeans_models,
         train=False)
     #%%
-    """model"""
     model_module = importlib.import_module("modules.model")
     importlib.reload(model_module)
     model = model_module.TabMT(config, train_dataset.EncodedInfo, device).to(device)
@@ -149,126 +147,72 @@ def main():
         )
     model.eval()
     #%%
+    """number of parameters"""
     count_parameters = lambda model: sum(p.numel() for p in model.parameters())
     num_params = count_parameters(model)
-    print(f"Number of Parameters: {num_params / 1000000:.3f}M")
-    wandb.log({"Number of Parameters": num_params / 1000000})
+    print(f"Number of Parameters: {num_params / 1000:.2f}K")
+    wandb.log({"Number of Parameters": num_params / 1000})
     #%%
     """Synthetic data generation"""
     n = len(train_dataset.raw_data)
     syndata = model.generate_synthetic_data(n, train_dataset)
     #%%
-    syn_cos = generalization_score(
-        train_dataset.raw_data, 
+    """evaluation"""
+    results = evaluation.evaluate(
         syndata, 
+        train_dataset.raw_data, 
+        test_dataset.raw_data, 
+        train_dataset.ClfTarget, 
+        train_dataset.continuous_features, 
+        train_dataset.categorical_features, 
+        device
+    )
+    """print results"""
+    for x, y in results._asdict().items():
+        print(f"{x}: {y:.3f}")
+        wandb.log({f"{x}": y})
+        
+    from dython.nominal import associations
+    print("Pairwise correlation difference (PCD)...")
+    syn_asso = associations(
+        syndata, 
+        nominal_columns=train_dataset.categorical_features,
+        compute_only=True)
+    true_asso = associations(
+        train_dataset.raw_data,
+        nominal_columns=train_dataset.categorical_features,
+        compute_only=True)
+    pcd_corr = np.linalg.norm(true_asso["corr"] - syn_asso["corr"])
+    print("Pairwise correlation difference (PCD) : ",pcd_corr)
+    wandb.log({"PCD":pcd_corr})
+    #%%
+    """
+    Memorization criterion:
+    [1] Diffusion Probabilistic Models Generalize when They Fail to Memorize (Yoon et al., 2023)
+    """
+    ratio = memorization_ratio(
+        train_dataset.raw_data,  
+        syndata, 
+        train_dataset.continuous_features, 
+        train_dataset.categorical_features
+    )
+    test_ratio = memorization_ratio(
+        train_dataset.raw_data, 
+        test_dataset.raw_data, 
         train_dataset.continuous_features,
         train_dataset.categorical_features
     )
-    test_cos = generalization_score(
-        train_dataset.raw_data, 
-        test_dataset.raw_data, 
-        train_dataset.continuous_features, 
-        train_dataset.categorical_features
-    )
-
-    threshold = 0.95
-    syn_glscore = 1 - (syn_cos > threshold).mean()
-    test_glscore = 1 - (test_cos > threshold).mean()
-
-    print(f"Syn_GLScore: {syn_glscore:.5f}")
-    wandb.log({"Syn_GLScore": syn_glscore})
-    print(f"Test_GLScore: {test_glscore:.5f}")
-    wandb.log({"Test_GLScore": test_glscore})
-    #%%
-    directory = f"./assets/fig_glscore/"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    mem_ratio = (ratio < 1/3).mean()
+    tau = np.linspace(0.01, 0.99, 99)
+    mem_auc = []
+    for t in tau:
+        mem_auc.append((ratio < t).mean())
+    mem_auc = np.mean(mem_auc)
     
-    import numpy as np
-    import seaborn as sns
-    # sns.set_style("whitegrid")
-    plt.rcParams.update({'font.size': 12})
-
-    fig, ax = plt.subplots(1, 1, figsize=(6, 4))
-
-    sns.histplot(
-        x=test_cos,
-        stat='density',
-        label='test',
-        bins=int(np.sqrt(len(test_cos))),
-        edgecolor='black',
-        ax=ax
-    )
-
-    sns.histplot(
-        x=syn_cos,
-        stat='density',
-        label='synthetic',
-        bins=int(np.sqrt(len(syn_cos))),
-        edgecolor='black',
-        ax=ax
-    )
-
-    ax.set_xlabel('GLScore', fontsize=12)
-    ax.set_ylabel("Density", fontsize=12)
-    ax.legend(fontsize=12)
-
-    plt.tight_layout()
-    plt.savefig(f"{directory}/hist_glscore_{config['dataset']}_{config['model']}.png")
-    plt.show()
-    plt.close()
-    #%%
-    syn_dcr = DCR_values(
-        train_dataset.raw_data, 
-        syndata, 
-        train_dataset.
-        continuous_features, 
-        train_dataset.categorical_features
-    )
-    test_dcr = DCR_values(
-        train_dataset.raw_data, 
-        test_dataset.raw_data, 
-        train_dataset.continuous_features, 
-        train_dataset.categorical_features
-    )
-    #%%
-    directory = f"./assets/fig_dcr/"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    
-    import numpy as np
-    import seaborn as sns
-    # sns.set_style("whitegrid")
-    plt.rcParams.update({'font.size': 12})
-
-    fig, ax = plt.subplots(1, 1, figsize=(6, 4))
-
-    sns.histplot(
-        x=test_dcr,
-        stat='density',
-        label='test',
-        bins=int(np.sqrt(len(test_dcr))),
-        edgecolor='black',
-        ax=ax
-    )
-
-    sns.histplot(
-        x=syn_dcr,
-        stat='density',
-        label='synthetic',
-        bins=int(np.sqrt(len(syn_dcr))),
-        edgecolor='black',
-        ax=ax
-    )
-
-    ax.set_xlabel('DCR', fontsize=12)
-    ax.set_ylabel("Density", fontsize=12)
-    ax.legend(fontsize=12)
-
-    plt.tight_layout()
-    plt.savefig(f"{directory}/hist_dcr_{config['dataset']}_{config['model']}.png")
-    plt.show()
-    plt.close()
+    print(f"MemRatio: {mem_ratio:.3f}")
+    wandb.log({"MemRatio": mem_ratio})
+    print(f"MemAUC: {mem_auc:.3f}")
+    wandb.log({"MemAUC": mem_auc})
     #%%
     wandb.config.update(config, allow_val_change=True)
     wandb.run.finish()

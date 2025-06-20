@@ -27,7 +27,7 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding="utf-8")
     import wandb
 
-project = "TabDDPM" # put your WANDB project name
+project = "2stage_baseline" # put your WANDB project name
 # entity = "wotjd1410" # put your WANDB username
 
 run = wandb.init(
@@ -44,6 +44,7 @@ def arg_as_list(s):
 
 def get_args(debug):
     parser = argparse.ArgumentParser("parameters")
+    parser.add_argument("--model", type=str, default="TabDDPM")
 
     parser.add_argument("--seed", type=int, default=0, 
                         help="seed for repeatable results")
@@ -129,10 +130,11 @@ def main():
     config['is_y_cond'] = True
     config['num_classes'] = train_dataset.num_classes
     config['d_in'] = d_in.astype(int)
-    if config['num_layers'] == 2:
-        config['embedding_dim'] = [config["dim_embed"], config["dim_embed"]]
-    elif config['num_layers'] == 4:
-        config['embedding_dim'] = [config["dim_embed"], 2*config["dim_embed"], 2*config["dim_embed"], config["dim_embed"]]
+    config['embedding_dim'] = [config["dim_embed"], config["dim_embed"]]
+    # if config['num_layers'] == 2:
+    #     config['embedding_dim'] = [config["dim_embed"], config["dim_embed"]]
+    # elif config['num_layers'] == 4:
+    #     config['embedding_dim'] = [config["dim_embed"], 2*config["dim_embed"], 2*config["dim_embed"], config["dim_embed"]]
         #%%
     """model"""
     model = get_model(config)
@@ -174,7 +176,7 @@ def main():
     trainer.run_loop()
     #%%
     """model save"""
-    base_name = f"TabDDPM_{config['dataset']}_{config['lr']}_{config['num_layers']}_{config['dim_embed']}_{config['num_timesteps']}"
+    base_name = f"TabDDPM_{config['dataset']}_{config['weight_decay']}_{config['lr']}_{config['num_layers']}_{config['dim_embed']}_{config['batch_size']}"
     model_dir = f"./assets/models/{base_name}/"
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)

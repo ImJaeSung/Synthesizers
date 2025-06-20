@@ -4,6 +4,7 @@ import sys
 import argparse
 import importlib
 
+import numpy as np
 import torch
 
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -28,7 +29,7 @@ project = "2stage_baseline" # put your WANDB project name
 run = wandb.init(
     project=project, 
     # entity=entity, 
-    tags=["inference"], # put tags of this python project
+    tags=["inference", "PCD"], # put tags of this python project
 )
 # %%
 def get_args(debug):
@@ -45,13 +46,13 @@ def get_args(debug):
                         etc: kings, abalone, anuran, shoppers, magic, creditcard
                         """)
     
-    parser.add_argument('--epochs', default=300, type=int,
+    parser.add_argument('--epochs', default=1000, type=int,
                         help='the number of epochs')
-    parser.add_argument('--batch_size', default=500, type=int,
+    parser.add_argument('--batch_size', default=1000, type=int,
                         help='batch size')
-    parser.add_argument("--latent_dim", default=128, type=int,
+    parser.add_argument("--latent_dim", default=512, type=int,
                         help="the latent dimension size")
-    parser.add_argument('--loss_factor', default=2, type=float,
+    parser.add_argument('--loss_factor', default=2.0, type=float,
                         help='weight in ELBO')
 
     if debug:
@@ -131,6 +132,20 @@ def main():
     for x, y in results._asdict().items():
         print(f"{x}: {y:.3f}")
         wandb.log({f"{x}": y})
+        
+    from dython.nominal import associations
+    print("Pairwise correlation difference (PCD)...")
+    syn_asso = associations(
+        syndata, 
+        nominal_columns=train_dataset.categorical_features,
+        compute_only=True)
+    true_asso = associations(
+        train_dataset.raw_data,
+        nominal_columns=train_dataset.categorical_features,
+        compute_only=True)
+    pcd_corr = np.linalg.norm(true_asso["corr"] - syn_asso["corr"])
+    print("Pairwise correlation difference (PCD) : ",pcd_corr)
+    wandb.log({"PCD":pcd_corr})
     #%%
     wandb.config.update(config, allow_val_change=True)
     wandb.run.finish()

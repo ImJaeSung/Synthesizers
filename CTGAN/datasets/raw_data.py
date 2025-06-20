@@ -322,5 +322,42 @@ def load_raw_data(config):
         integer_features = []
         ClfTarget = "quality"
         
+    elif config["dataset"] == "shoppers":
+        ### https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset
+        data = pd.read_csv('./data/online_shoppers_intention.csv')
+        
+        assert data.isna().sum().sum() == 0
+
+        continuous_features = [
+            'Administrative_Duration',   
+            'Informational_Duration',      
+            'ProductRelated_Duration',     
+            'BounceRates',             
+            'ExitRates',                   
+            'PageValues',                
+            'SpecialDay',                
+            'Administrative',    
+            'Informational',     
+            'ProductRelated',      
+        ]
+
+        categorical_features = [
+            'Month',               
+            'VisitorType',         
+            'Weekend',          
+            'OperatingSystems',    
+            'Browser',            
+            'Region',           
+            'TrafficType',        
+            "Revenue"
+        ]
+
+        integer_features = [
+            'Administrative',    
+            'Informational',      
+            'ProductRelated',     
+        ]
+
+        ClfTarget = "Revenue"    
     return data, continuous_features, categorical_features, integer_features, ClfTarget
 #%%
