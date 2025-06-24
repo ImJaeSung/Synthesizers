@@ -10,6 +10,7 @@ Code was adapted from https://github.com/Yura52/rtdl
 """
 #%%
 import math
+import random
 from typing import Callable, List, Type, Union
 import numpy as np
 
@@ -24,7 +25,17 @@ from sklearn import metrics
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, OneHotEncoder
 from sklearn.metrics.pairwise import cosine_similarity
 #%%
+def set_random_seed(seed):
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)  # 모든 GPU에 대한 시드 고정
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
+    # NumPy 시드 고정
+    np.random.seed(seed)
+    random.seed(seed)   
+    
 ModuleType = Union[str, Callable[..., nn.Module]]
 #%%
 class SiLU(nn.Module):

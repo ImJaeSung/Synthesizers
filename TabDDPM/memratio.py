@@ -10,7 +10,7 @@ from modules.utils import get_model
 
 import modules
 from synthetic_eval import evaluation
-from evaluation.utils import set_random_seed, memorization_ratio
+from modules.utils import set_random_seed, memorization_ratio
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -46,24 +46,53 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
     
 def get_args(debug):
-    parser = argparse.ArgumentParser('parameters')
+    parser = argparse.ArgumentParser("parameters")
     
-    parser.add_argument('--ver', type=int, default=0, 
-                        help='model version number')
-    parser.add_argument('--dataset', type=str, default='breast', 
+    parser.add_argument("--model", type=str, default="TabDDPM")
+
+    parser.add_argument("--ver", type=int, default=0, 
+                        help="version for repeatable results")
+    parser.add_argument('--dataset', type=str, default='default', 
                         help="""
                         Tabular dataset options: 
                         breast, banknote, default, whitewine, bankruptcy, BAF
                         """)
-    
-    parser.add_argument("--lr", type=float, default=0.0002, 
+    parser.add_argument("--test_size", default=0.2, type=float,
+                        help="the ratio of train test split")
+      
+    parser.add_argument('--epochs', default=10000, type=int,
+                        help='Number epochs to train TabDDPM.')
+    parser.add_argument("--lr", type=float, default=0.002, 
                         help="Learning rate")
+    parser.add_argument("--weight_decay", type=float, default=1e-4, 
+                        help="Weight decay")
+    parser.add_argument("--batch_size", type=int, default=1024, 
+                        help="Batch size")
+    
+    parser.add_argument("--model_type", type=str, default='mlp', 
+                        help="Type of model")
+    parser.add_argument("--model_params", type=str, default=None, 
+                        help="Parameters of the model")
     parser.add_argument("--num_timesteps", type=int, default=1000, 
                         help="Number of timesteps")
+    parser.add_argument("--gaussian_loss_type", type=str, default='mse', 
+                        help="Type of Gaussian loss")
+    parser.add_argument("--scheduler", type=str, default='cosine', 
+                        help="Scheduler type")
+    parser.add_argument("--gaussian_parametrization", type=str, default='eps', 
+                        help="Gaussian parametrization")
+    parser.add_argument("--multinomial_loss_type", type=str,
+                        default='vb_stochastic', help="Multinomial loss type")
+    parser.add_argument("--parametrization", type=str, default='x0', 
+                        help="Parametrization")
+    
     parser.add_argument("--num_layers", type=int, default=4, 
                         help="the number of mlp layers for TabDDPM")
-    parser.add_argument("--dim_embed", type=int, default=256, 
+    parser.add_argument("--dim_embed", type=int, default=1024, 
                         help="embedding dimension of TabDDPM")
+
+    parser.add_argument("--dropout", type=list, default=0.0, 
+                        help="dropout of TabDDPM")
 
     if debug:
         return parser.parse_args(args=[])
@@ -150,8 +179,8 @@ def main():
         train_dataset.raw_data, 
         test_dataset.raw_data, 
         train_dataset.ClfTarget, 
-        train_dataset.EncodedInfo.continuous_features, 
-        train_dataset.EncodedInfo.categorical_features, 
+        train_dataset.continuous_features, 
+        train_dataset.categorical_features, 
         device
     )
     """print results"""
