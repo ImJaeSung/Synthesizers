@@ -180,9 +180,9 @@ def main():
         test_dataset.raw_data, 
         train_dataset.ClfTarget, 
         train_dataset.continuous_features, 
-        train_dataset.categorical_features, 
-        device
-    )
+        train_dataset.categorical_features + [train_dataset.ClfTarget], 
+        device)
+    
     """print results"""
     for x, y in results._asdict().items():
         print(f"{x}: {y:.3f}")
@@ -192,11 +192,11 @@ def main():
     print("Pairwise correlation difference (PCD)...")
     syn_asso = associations(
         syndata, 
-        nominal_columns=train_dataset.categorical_features,
+        nominal_columns=train_dataset.categorical_features + [train_dataset.ClfTarget],
         compute_only=True)
     true_asso = associations(
         train_dataset.raw_data,
-        nominal_columns=train_dataset.categorical_features,
+        nominal_columns=train_dataset.categorical_features + [train_dataset.ClfTarget],
         compute_only=True)
     pcd_corr = np.linalg.norm(true_asso["corr"] - syn_asso["corr"])
     print("Pairwise correlation difference (PCD) : ",pcd_corr)
@@ -210,13 +210,13 @@ def main():
         train_dataset.raw_data,  
         syndata, 
         train_dataset.continuous_features, 
-        train_dataset.categorical_features
+        train_dataset.categorical_features + [train_dataset.ClfTarget]
     )
     test_ratio = memorization_ratio(
         train_dataset.raw_data, 
         test_dataset.raw_data, 
         train_dataset.continuous_features,
-        train_dataset.categorical_features
+        train_dataset.categorical_features + [train_dataset.ClfTarget]
     )
     mem_ratio = (ratio < 1/3).mean()
     tau = np.linspace(0.01, 0.99, 99)

@@ -28,7 +28,7 @@ except:
     subprocess.run(["wandb", "login"], input=key[0], encoding='utf-8')
     import wandb
 
-project = "TabDDPM" # put your WANDB project name
+project = "2stage_baseline" # put your WANDB project name
 # entity = "wotjd1410" # put your WANDB username
 
 run = wandb.init(
@@ -147,13 +147,34 @@ def main():
         ddim=False)
     # syndata.to_csv(f"{config['dataset']}_syndata.csv", index=False)
     #%%
-    results = evaluate(syndata, train_dataset, test_dataset, config, device)
-    results = results._asdict()
-
-    for x, y in results.items():
+    """evaluation"""
+    results = evaluation.evaluate(
+        syndata, 
+        train_dataset.raw_data, 
+        test_dataset.raw_data, 
+        train_dataset.ClfTarget, 
+        train_dataset.continuous_features, 
+        train_dataset.categorical_features + [train_dataset.ClfTarget], 
+        device)
+    
+    """print results"""
+    for x, y in results._asdict().items():
         print(f"{x}: {y:.3f}")
         wandb.log({f"{x}": y})
-    #%%
+        
+    from dython.nominal import associations
+    print("Pairwise correlation difference (PCD)...")
+    syn_asso = associations(
+        syndata, 
+        nominal_columns=train_dataset.categorical_features + [train_dataset.ClfTarget],
+        compute_only=True)
+    true_asso = associations(
+        train_dataset.raw_data,
+        nominal_columns=train_dataset.categorical_features + [train_dataset.ClfTarget],
+        compute_only=True)
+    pcd_corr = np.linalg.norm(true_asso["corr"] - syn_asso["corr"])
+    print("Pairwise correlation difference (PCD) : ",pcd_corr)
+    wandb.log({"PCD":pcd_corr})
     wandb.config.update(config, allow_val_change=True)
     wandb.run.finish()
     #%% 
